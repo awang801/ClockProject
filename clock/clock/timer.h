@@ -50,9 +50,11 @@ public:
 
 	//Member variables
 
-	int m_hours;
-	int m_minutes;
-	int m_seconds;
+private:
+
+		int m_hours;
+		int m_minutes;
+		int m_seconds;
 
 };
 
