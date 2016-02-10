@@ -6,7 +6,7 @@
 #include <cassert>
 #include <functional>
 #include "timer.h"
-i like turtles
+
 void Start(timer* clk);
 
 int main()
