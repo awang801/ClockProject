@@ -14,14 +14,13 @@ int main()
 	timer* t=new timer();
 	Start(t);
 // user needs to have defined set the time before this point
-	int n=1;
 	std::cout<< "reached debug 2\n";
+	std::cout <<"\n";
 	do
 	{
-		std::cout<<"reached debug 3 \n";
-		std::cout << t->getHours()<< ":"<<t->getMinutes()<<":"<<t->getSeconds() ;
-		n++;
-	}while(n==1);
+		std::cout <<"\r"<< t->getHours()<< ":"<<t->getMinutes()<<":"<<t->getSeconds();
+		t->timing();
+	}while(1);
 	std::cout<< "reached debug 4 \n";
         return(0);
 }
