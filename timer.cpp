@@ -1,12 +1,18 @@
-//#include "stdafx.h"
 #include "timer.h"
-
+#include <time.h>
 
 timer::timer()
 {
 	m_hours = 0;
 	m_minutes = 0;
 	m_seconds = 0;
+}
+
+timer::timer(int hours, int minutes, int seconds)
+{
+	m_hours = hours;
+	m_minutes = minutes;
+	m_seconds = seconds;
 }
 
 timer::~timer()

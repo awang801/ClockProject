@@ -1,60 +1,66 @@
-#pragma once
 class timer
 {
-public:
-	timer();
-	~timer();
+	public:
+		/** @pre  None
+		*   @post Timer defaulted to current Central time
+		*/
+		timer();
 
-	/** @pre  None
-	*   @post Variables for time are updated
-	*/
-	void timing();
+		/** @pre  hours, minutes, seconds are assumed to be valid numbers for hours, minutes, seconds
+		*   @post m_hours, m_minutes, m_seconds are set to user defined inputs
+		*/
+		timer(int hours, int minutes, int seconds);
 
-	//--------------------------------------
-	//Get methods for hours, minutes, seconds
-	//--------------------------------------
+		~timer();
 
-	/** @pre    None
-	*   @return Returns number of hours
-	*/
-	int getHours();
+		/** @pre  None
+		*   @post Variables for time are updated
+		*/
+		void timing();
 
-	/** @pre    None
-	*   @return Returns number of minutes
-	*/
-	int getMinutes();
+		//--------------------------------------
+		//Get methods for hours, minutes, seconds
+		//--------------------------------------
 
-	/** @pre    None
-	*   @return Returns number of seconds
-	*/
-	int getSeconds();
+		/** @pre    None
+		*   @return Returns number of hours
+		*/
+		int getHours();
 
-	//--------------------------------------
-	//Set methods for hours, minutes, seconds
-	//--------------------------------------
+		/** @pre    None
+		*   @return Returns number of minutes
+		*/
+		int getMinutes();
 
-	/** @pre  hours is assumed to be a valid integer representation for an "hour"
-	*   @post Sets hours to integer passed in
-	*/
-	void setHours(int hours);
+		/** @pre    None
+		*   @return Returns number of seconds
+		*/
+		int getSeconds();
 
-	/** @pre  minutes is assumed to be a valid integer representation for a "minute"
-	*   @post Sets hours to integer passed in
-	*/
-	void setMinutes(int minutes);
+		//--------------------------------------
+		//Set methods for hours, minutes, seconds
+		//--------------------------------------
 
-	/** @pre  seconds is assumed to be a valid integer representation for a "second"
-	*   @post Sets hours to integer passed in
-	*/
-	void setSeconds(int seconds);
+		/** @pre  hours is assumed to be a valid integer representation for an "hour"
+		*   @post Sets hours to integer passed in
+		*/
+		void setHours(int hours);
 
-	//Member variables
+		/** @pre  minutes is assumed to be a valid integer representation for a "minute"
+		*   @post Sets hours to integer passed in
+		*/
+		void setMinutes(int minutes);
 
-private:
+		/** @pre  seconds is assumed to be a valid integer representation for a "second"
+		*   @post Sets hours to integer passed in
+		*/
+		void setSeconds(int seconds);
 
+		//Member variables
+
+	private:
+		int m_seconds_1970;
 		int m_hours;
 		int m_minutes;
 		int m_seconds;
-
 };
-
