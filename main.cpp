@@ -7,14 +7,22 @@
 #include <functional>
 #include "timer.h"
 
+void Start(timer clk);
+
 int main()
 {
 	timer t;
+	Start(t);
 // user needs to have defined set the time before this point
-	while(1)
+	int n=1;
+	std::cout<< "reached debug 2\n";
+	do
 	{
-		std::cout << t.getHours()<< ":"<<t.getMinutes()<<":"<<t.getSeconds() <<"\r";
-	}
+		std::cout<<"reached debug 3 \n";
+		std::cout << t.getHours()<< ":"<<t.getMinutes()<<":"<<t.getSeconds() ;
+		n++;
+	}while(n==1);
+	std::cout<< "reached debug 4 \n";
         return(0);
 }
 /*
@@ -47,20 +55,22 @@ void Start(timer clk){
 
   std::cout << "Set time:: (hh:mm:ss) \n" << std::endl;
 
-  std::cout << "HR: ";
+  std::cout << "HR: \n";
   int hr;
   std::cin >> hr;
-  std::cout << "\n MIN: ";
+  std::cout << "MIN: \n";
   int min;
   std::cin >> min;
-  std::cout << "\n Sec: ";
+  std::cout << "Sec:\n ";
   int sec;
   std::cin >> sec;
 
   clk.setHours(hr);
+	std::cout << "\n Setting hours to " << clk.getHours()<< std::endl; //for debugging
   clk.setMinutes(min);
   clk.setSeconds(sec);
-  
+ 
+	std::cout << "reached debug 1\n"; 
   // std::cout << "Set time:: (hh:mm:ss) \n" << std::endl;
   //
 
