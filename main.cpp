@@ -11,7 +11,7 @@ void Start(timer* clk);
 
 int main()
 {
-	timer* t=new Timer();
+	timer* t=new timer();
 	Start(t);
 // user needs to have defined set the time before this point
 	int n=1;
@@ -66,7 +66,6 @@ void Start(timer* clk){
   std::cin >> sec;
 
   clk->setHours(hr);
-	std::cout << "\n Setting hours to " << clk.getHours()<< std::endl; //for debugging
   clk->setMinutes(min);
   clk->setSeconds(sec);
 
