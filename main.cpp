@@ -5,9 +5,16 @@
 #include <chrono>
 #include <cassert>
 #include <functional>
+#include "timer.h"
+
 int main()
 {
-
+	timer t;
+// user needs to have defined set the time before this point
+	while(1)
+	{
+		std::cout << t.getHours()<< ":"<<t.getMinutes()<<":"<<t.getSeconds() <<"\r";
+	}
         return(0);
 }
 /*
@@ -40,13 +47,13 @@ void Start(timer clk){
 
   std::cout << "Set time:: (hh:mm:ss) \n" << std::endl;
 
-  std::cout << "HR: "
+  std::cout << "HR: ";
   int hr;
   std::cin >> hr;
-  std::cout << "\n MIN: "
+  std::cout << "\n MIN: ";
   int min;
   std::cin >> min;
-  std::cout << "\n Sec: "
+  std::cout << "\n Sec: ";
   int sec;
   std::cin >> sec;
 
@@ -78,27 +85,3 @@ void Start(timer clk){
 
 }
 
-
-/*
- *  *
- *   *
- *   template<typename T>
- *   double Sorts<T>::sortTimer(std::function<void(T[],int)> sort, T arr[], int size)
- *   {
- *
- *           //declartations---------------------
- *                   std::chrono::system_clock::time_point start;
- *                           std::chrono::system_clock::time_point end;
- *                                   std::chrono::duration<double> elapsed;
- *                                           //
- *                                                   //timine something--------------
- *                                                           start = std::chrono::system_clock::now();       //starts the timer
- *                                                                   std::cout << "\n calling sort in sortTimer \n";
- *                                                                           sort(arr, size);                                //performs the sort
- *                                                                                   end = std::chrono::system_clock::now();         //ends the timer
- *                                                                                           elapsed = (end-start);                          //computes the total time
- *                                                                                                   std::cout << "Sort completed in " << elapsed.count() << " seconds \n";
- *                                                                                                           return(elapsed.count());
- *                                                                                                           }
- *
-*/
