@@ -37,6 +37,11 @@ class timer
 		*/
 		int getSeconds();
 
+		/** @pre  None
+		*   @post Returns mode of clock
+		*/
+		bool get24hourmode();
+
 		//--------------------------------------
 		//Set methods for hours, minutes, seconds
 		//--------------------------------------
@@ -56,6 +61,11 @@ class timer
 		*/
 		void setSeconds(int seconds);
 
+		/** @pre  None
+		*   @post Mode is set to either 24 hour mode or 24 hour mode
+		*/
+		void set24hourmode(bool mode);
+
 		//Member variables
 
 	private:
@@ -63,4 +73,6 @@ class timer
 		int m_hours;
 		int m_minutes;
 		int m_seconds;
+		//If mode is 12 hour, m_24hour_flag = false. If mode is 24 hour, m_24hour_flag = true
+		bool m_24hour_flag;
 };

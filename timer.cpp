@@ -6,6 +6,7 @@ timer::timer()
 	m_hours = 0;
 	m_minutes = 0;
 	m_seconds = 0;
+	m_24hour_flag = false;
 }
 
 timer::timer(int hours, int minutes, int seconds)
@@ -14,6 +15,7 @@ timer::timer(int hours, int minutes, int seconds)
 	m_minutes = minutes;
 	m_seconds = seconds;
 	m_seconds_1970 = time(0);
+	m_24hour_flag = false;
 }
 
 timer::~timer()
@@ -62,7 +64,22 @@ void timer::timing()
 
 int timer::getHours()
 {
-	return(m_hours);
+	if (m_24hour_flag = false)
+	{
+		if (m_hours > 12)
+		{
+			return(m_hours - 12);
+		}
+		else
+		{
+			return(m_hours);
+		}
+	}
+	else
+	{
+		return(m_hours);
+	}
+	
 }
 
 int timer::getMinutes()
@@ -73,6 +90,11 @@ int timer::getMinutes()
 int timer::getSeconds()
 {
 	return(m_seconds);
+}
+
+bool get24hourmode()
+{
+	return m_24hour_flag;
 }
 
 void timer::setHours(int hours)
@@ -88,4 +110,9 @@ void timer::setMinutes(int minutes)
 void timer::setSeconds(int seconds)
 {
 	m_seconds = seconds;
+}
+
+void timer::set24hourmode(bool mode)
+{
+	m_24mode_flag = mode;
 }
