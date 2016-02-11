@@ -6,29 +6,28 @@
 #include <cassert>
 #include <functional>
 #include "timer.h"
-i like turtles
-void Start(timer clk);
+
+void Start(timer* clk);
 
 int main()
 {
-	timer t;
+	timer* t=new timer();
 	Start(t);
 // user needs to have defined set the time before this point
-	int n=1;
 	std::cout<< "reached debug 2\n";
+	std::cout <<"\n";
 	do
 	{
-		std::cout<<"reached debug 3 \n";
-		std::cout << t.getHours()<< ":"<<t.getMinutes()<<":"<<t.getSeconds() ;
-		n++;
-	}while(n==1);
+		std::cout <<"\r"<< t->getHours()<< ":"<<t->getMinutes()<<":"<<t->getSeconds();
+		t->timing();
+	}while(1);
 	std::cout<< "reached debug 4 \n";
         return(0);
 }
 /*
 user setting time of clock
 */
-void Start(timer clk){
+void Start(timer* clk){
  std::cout << "24 hr mode? (y/n)?" << std::endl;
  std::string temp;
  std::cin >> temp;
@@ -65,12 +64,11 @@ void Start(timer clk){
   int sec;
   std::cin >> sec;
 
-  clk.setHours(hr);
-	std::cout << "\n Setting hours to " << clk.getHours()<< std::endl; //for debugging
-  clk.setMinutes(min);
-  clk.setSeconds(sec);
- 
-	std::cout << "reached debug 1\n"; 
+  clk->setHours(hr);
+  clk->setMinutes(min);
+  clk->setSeconds(sec);
+
+	std::cout << "reached debug 1\n";
   // std::cout << "Set time:: (hh:mm:ss) \n" << std::endl;
   //
 
@@ -94,4 +92,3 @@ void Start(timer clk){
 
 
 }
-
