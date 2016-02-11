@@ -16,6 +16,7 @@ timer::timer(int hours, int minutes, int seconds)
 	m_seconds = seconds;
 	m_seconds_1970 = time(0);
 	m_24hour_flag = false;
+	m_am_pm="am";
 }
 
 timer::~timer()
@@ -35,7 +36,7 @@ void timer::timing()
 
 	//Updating m_seconds, and keeping track of how many minutes need to be updated
 	m_seconds = m_seconds + difference;
-	
+
 	int minutes_to_add = 0;
 	//If m_seconds is over 60, make it so it is less than 60
 	while (m_seconds > 60)
@@ -52,10 +53,10 @@ void timer::timing()
 		m_minutes = m_minutes - 60;
 		hours_to_add++;
 	}
-	
+
 	//Updating m_hours, and making sure if the hour count goes over 24 it goes back to 0, and increments from there
 	m_hours = m_hours + hours_to_add;
-	while (m_hours > 24)
+	while (m_hours >= 24)
 	{
 		m_hours = m_hours - 24;
 	}
@@ -79,13 +80,21 @@ int timer::getHours()
 	{
 		return(m_hours);
 	}
-	
+
+}
+
+std::string timer::getam_pm()
+{
+	if(m_hours<12){
+		return("am");
+	}else{return("pm")}
 }
 
 int timer::getMinutes()
 {
 	return(m_minutes);
 }
+int
 
 int timer::getSeconds()
 {
@@ -116,3 +125,7 @@ void timer::set24hourmode(bool mode)
 {
 	m_24mode_flag = mode;
 }
+ void timer::setam_pm(std:string s) {
+	m_am_pm=s;
+	return;
+ }
