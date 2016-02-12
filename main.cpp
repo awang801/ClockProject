@@ -9,16 +9,19 @@
 
 void Start(timer* clk);
 void Reset(timer* clk);
+std::string gettime(timer* clk);
+
 
 int main()
 {
 	timer* t=new timer();
 	Start(t);
 // user needs to have defined set the time before this point
+	std::cout <<"orignal time:" gettime(t);
 	std::cout <<"\n";
 	do
 	{
-		std::cout <<"\r"<< t->getHours()<< ":"<<t->getMinutes()<<":"<<t->getSeconds();
+		std::cout << gettime(t)<<"\r";
 		t->timing();
 	}while(1);
 				delete t;
@@ -41,13 +44,13 @@ void Start(timer* clk)
     {
       clk->set24hourmode(true);
       inputflag=true;
-    }else if (temp=='N'||temp=='n') 
+    }else if (temp=='N'||temp=='n')
 	{
       std::cout << "Am or PM?" << std::endl;
 
 			std::cin >> am_pm;
 			do {
-				if (am_pm=="am"||am_pm=="AM"||am_pm=="aM"||am_pm=="Am"||am_pm=="a.m.") 
+				if (am_pm=="am"||am_pm=="AM"||am_pm=="aM"||am_pm=="Am"||am_pm=="a.m.")
 				{
 
 					break;
@@ -55,7 +58,7 @@ void Start(timer* clk)
 					am_pm=="pm"; //need am_pm to equal this later
 
 					break;
-				} else 
+				} else
 				{
 					std::cout << "Invalid input" << std::endl;
 					std::cout << "Am or PM?" << std::endl;
@@ -82,17 +85,18 @@ void Start(timer* clk)
   int hr;
   std::cin >> hr;
 	hr=hr%24;
+	std::cout << hr << std::endl;
 
 
   std::cout << "MIN: \n";
   int min;
   std::cin >> min;
-	min=min%60;
+	//min=min%60;
 
   std::cout << "Sec:\n ";
   int sec;
   std::cin >> sec;
-	sec=sec%60;
+	//sec=sec%60;
 
 
 if(clk->get24hourmode()==false && am_pm=="pm")
@@ -105,21 +109,40 @@ if(clk->get24hourmode()==false && am_pm=="pm")
   clk->setMinutes(min);
   clk->setSeconds(sec);
 
-  // std::cout << "Set time:: (hh:mm:ss) \n" << std::endl;
-  //
 
-  // std::string temptime;
-  //
-  // if ( temptime.size()!=8|| temptime.at(2)!=':' || temptime.at(5)!=':'){
-  //     std::cout << "Invalid input" << std::endl;
-  //   }else{
-  //
-  //
-  //   }
-  //
-  // }
+}
+std::string gettime(timer * clk)
+{
+	std::string t;
+
+
+	int temp=clk->getHours();
+	if (temp>=10) {
+		t=std::to_string(temp);
+	}
+	else {
+		t="0"+std::to_string(temp);
+	}
+	 temp=clk->getMinutes();
+	if (temp>=10) {
+		t=t+":"+std::to_string(temp);
+	}
+	else {
+		t=t+":0"+std::to_string(temp);
+	}
+	temp=clk->getSeconds();
+	if (temp>=10) {
+		t=t+":"+std::to_string(temp);
+	}else {
+		t=t+":0"+std::to_string(temp);
+	}
+	if(!(clk->get24hourmode())){
+		t=t+clk->getam_pm();
+	}
+ return t;
 }
 
+//
 // bool Reset(Timer* clk){
 // 		int i=1;
 // 		while(i==1){
@@ -128,4 +151,23 @@ if(clk->get24hourmode()==false && am_pm=="pm")
 // 			std::cout << "2) change time" << std::endl;
 // 			std::cout << "3) end the clock" << std::endl;
 //
-
+//
+// 			int input;
+// 			std::cin >> input;
+//
+//
+// 			if (input==1) {
+// 				clk->set24hourmode(!(clk->get24hourmode()));
+// 			}
+// 			else if (input==2) {
+// 				/* code */
+// 			}
+// 			else if(input==3) {
+// 				/* code */
+// 			}else{
+// 				std::cout << "invalid input" << std::endl;
+// 			}
+// 				std::cout << "would you like change anything else? (y/n)" << std::endl;
+// 					char x;
+//
+// 		}
