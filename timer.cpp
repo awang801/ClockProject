@@ -87,23 +87,22 @@ std::string timer::getam_pm()
 {
 	if(m_hours<12){
 		return("am");
-	}else{return("pm")}
+	}else{return("pm");}
 }
 
 int timer::getMinutes()
 {
 	return(m_minutes);
 }
-int
 
 int timer::getSeconds()
 {
 	return(m_seconds);
 }
 
-bool get24hourmode()
+bool timer::get24hourmode()
 {
-	return m_24hour_flag;
+	return(m_24hour_flag);
 }
 
 void timer::setHours(int hours)
@@ -123,9 +122,9 @@ void timer::setSeconds(int seconds)
 
 void timer::set24hourmode(bool mode)
 {
-	m_24mode_flag = mode;
+	m_24hour_flag = mode;
 }
- void timer::setam_pm(std:string s) {
+ void timer::setam_pm(std::string s) {
 	m_am_pm=s;
 	return;
  }

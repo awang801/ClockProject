@@ -27,46 +27,51 @@ int main()
 /*
 user setting time of clock
 */
-void Start(timer* clk){
+void Start(timer* clk)
+{
  std::cout << "24 hr mode? (y/n)?" << std::endl;
  char temp;
- std::string am_pm=="";
+ std::string am_pm="";
  std::cin >> temp;
  bool inputflag;
-  do{
+ do{
 
 
     if(temp=='Y'||temp=='y')
     {
       clk->set24hourmode(true);
       inputflag=true;
-    }else if (temp=='N'||temp=='n') {
+    }else if (temp=='N'||temp=='n') 
+	{
       std::cout << "Am or PM?" << std::endl;
 
 			std::cin >> am_pm;
 			do {
-				if (am_pm=="am"||am_pm=="AM"||am_pm=="aM"||am_pm=="Am"||am_pm=="a.m.") {
+				if (am_pm=="am"||am_pm=="AM"||am_pm=="aM"||am_pm=="Am"||am_pm=="a.m.") 
+				{
 
 					break;
 				} else if (am_pm=="pm"||am_pm=="PM"||am_pm=="pM"||am_pm=="Pm"||am_pm=="p.m.") {
 					am_pm=="pm"; //need am_pm to equal this later
 
 					break;
-				} else {
+				} else 
+				{
 					std::cout << "Invalid input" << std::endl;
 					std::cout << "Am or PM?" << std::endl;
 					std::cin >> am_pm;
 				}
 			} while(true);
 
-      inputflag=true;
-      break;
-    }else{
-      std::cout << "Invalid input" << std::endl;
-      std::cout << "24 hr mode? (y/n)?" << std::endl;
-			std::cin >> temp;
-      inputflag=false;
-    }
+      	inputflag=true;
+    	break;
+    	}else
+	{
+     		std::cout << "Invalid input" << std::endl;
+      		std::cout << "24 hr mode? (y/n)?" << std::endl;
+		std::cin >> temp;
+      		inputflag=false;
+    	}
 
   }while(!(inputflag));
   inputflag=false;
@@ -82,7 +87,7 @@ void Start(timer* clk){
   std::cout << "MIN: \n";
   int min;
   std::cin >> min;
-	min=main%60;
+	min=min%60;
 
   std::cout << "Sec:\n ";
   int sec;
@@ -90,7 +95,7 @@ void Start(timer* clk){
 	sec=sec%60;
 
 
-if(clk->get24hourmode==false && am_pm=="pm")
+if(clk->get24hourmode()==false && am_pm=="pm")
 {
 	hr=hr%12;
 	hr=hr+12;
@@ -124,10 +129,3 @@ if(clk->get24hourmode==false && am_pm=="pm")
 // 			std::cout << "3) end the clock" << std::endl;
 //
 
-
-		}
-
-
-
-
-}
