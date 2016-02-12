@@ -4,11 +4,12 @@
 #include <ctime>
 #include <chrono>
 #include <cassert>
+#include <fstream>
 #include <functional>
 #include "timer.h"
 
 void Start(timer* clk);
-void Reset(timer* clk);
+bool Reset(timer* clk);
 
 int main()
 {
@@ -16,10 +17,38 @@ int main()
 	Start(t);
 // user needs to have defined set the time before this point
 	std::cout <<"\n";
+
+	int startSecs = t->getSeconds();
+	int curSecs = startSecs;
+
 	do
 	{
 		std::cout <<"\r"<< t->getHours()<< ":"<<t->getMinutes()<<":"<<t->getSeconds();
+		if(!t->get24hourmode())
+		{
+			std::cout << t->getam_pm();
+		}
 		t->timing();
+		if(t->getSeconds()==curSecs+1)
+		{
+			curSecs++;
+		}
+
+		if(curSecs == startSecs+15) //open file, check if its a y, if it is a 'n' break the loop and return to the menu, else
+		{
+			startSecs = t->getSeconds();
+			std::ifstream time("time.txt");
+			char readIn = 'n';
+			time >> readIn;
+			if(readIn != 'y')
+			{
+				Reset(t);
+			}
+
+		}
+
+
+		std::ifstream time("time.txt");
 	}while(1);
 				delete t;
         return(0);
@@ -41,13 +70,13 @@ void Start(timer* clk)
     {
       clk->set24hourmode(true);
       inputflag=true;
-    }else if (temp=='N'||temp=='n') 
+    }else if (temp=='N'||temp=='n')
 	{
       std::cout << "Am or PM?" << std::endl;
 
 			std::cin >> am_pm;
 			do {
-				if (am_pm=="am"||am_pm=="AM"||am_pm=="aM"||am_pm=="Am"||am_pm=="a.m.") 
+				if (am_pm=="am"||am_pm=="AM"||am_pm=="aM"||am_pm=="Am"||am_pm=="a.m.")
 				{
 
 					break;
@@ -55,7 +84,7 @@ void Start(timer* clk)
 					am_pm=="pm"; //need am_pm to equal this later
 
 					break;
-				} else 
+				} else
 				{
 					std::cout << "Invalid input" << std::endl;
 					std::cout << "Am or PM?" << std::endl;
@@ -82,7 +111,6 @@ void Start(timer* clk)
   int hr;
   std::cin >> hr;
 	hr=hr%24;
-
 
   std::cout << "MIN: \n";
   int min;
@@ -120,12 +148,14 @@ if(clk->get24hourmode()==false && am_pm=="pm")
   // }
 }
 
-// bool Reset(Timer* clk){
-// 		int i=1;
-// 		while(i==1){
-// 			std::cout << "Clock menu \n" << "============ \n"<<"what do want to change(insert number) \n";
-// 			std::cout << "1) change clock mode " << std::endl;
-// 			std::cout << "2) change time" << std::endl;
-// 			std::cout << "3) end the clock" << std::endl;
-//
-
+bool Reset(timer* clk)
+{
+		int i=1;
+		while(i==1)
+		{
+			std::cout << "Clock menu \n" << "============ \n"<<"what do want to change(insert number) \n";
+			std::cout << "1) change clock mode " << std::endl;
+			std::cout << "2) change time" << std::endl;
+			std::cout << "3) end the clock" << std::endl;
+		}
+}
