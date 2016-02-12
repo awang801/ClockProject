@@ -39,7 +39,7 @@ void timer::timing()
 
 	int minutes_to_add = 0;
 	//If m_seconds is over 60, make it so it is less than 60
-	while (m_seconds > 60)
+	while (m_seconds >= 60)
 	{
 		m_seconds = m_seconds - 60;
 		minutes_to_add++;
@@ -65,7 +65,7 @@ void timer::timing()
 
 int timer::getHours()
 {
-	if (m_24hour_flag = false)
+	if (m_24hour_flag == false)
 	{
 		if (m_hours > 12)
 		{
