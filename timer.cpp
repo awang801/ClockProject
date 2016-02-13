@@ -7,6 +7,7 @@ timer::timer()
 	m_minutes = 0;
 	m_seconds = 0;
 	m_24hour_flag = false;
+	m_seconds_1970 = time(0);
 }
 
 timer::timer(int hours, int minutes, int seconds)
