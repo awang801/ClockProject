@@ -18,7 +18,7 @@ int main()
 	timer* t=new timer();
 	Start(t);
 // user needs to have defined set the time before this point
-	std::cout <<"orignal time:" gettime(t);
+	std::cout <<"orignal time:"<< gettime(t);
 	std::cout <<"\n";
 
 	int startSecs = t->getSeconds();
