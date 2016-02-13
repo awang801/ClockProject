@@ -23,12 +23,12 @@ class timer
 		//Get methods for hours, minutes, seconds
 		//--------------------------------------
 
-		/** @pre    None
+		/** @pre None
 		*   @return Returns number of hours
 		*/
 		int getHours();
 
-		/** @pre    None
+		/** @pre None
 		*   @return Returns number of minutes
 		*/
 		int getMinutes();
