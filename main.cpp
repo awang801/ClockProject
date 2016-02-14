@@ -16,10 +16,13 @@ std::string gettime(timer* clk);
 int main()
 {
 	timer* t=new timer();
+
 	Start(t);
+	bool time_lord=true;
 // user needs to have defined set the time before this point
 	std::cout <<"orignal time:"<< gettime(t);
 	std::cout <<"\n";
+
 
 	int startSecs = t->getSeconds();
 	int curSecs = startSecs;
@@ -42,14 +45,14 @@ int main()
 			time >> readIn;
 			if(readIn != 'y')
 			{
-				Reset(t);
+				time_lord=Reset(t);
 			}
 
 		}
 
 
 		std::ifstream time("time.txt");
-	}while(1);
+	}while(time_lord);
 				delete t;
         return(0);
 }
@@ -111,7 +114,7 @@ void Start(timer* clk)
   int hr;
   std::cin >> hr;
 	hr=hr%24;
-	std::cout << hr << std::endl;
+
 
   std::cout << "MIN: \n";
   int min;
@@ -148,7 +151,7 @@ std::string gettime(timer * clk)
 	else {
 		t="0"+std::to_string(temp);
 	}
-	 temp=clk->getMinutes();
+	temp=clk->getMinutes();
 	if (temp>=10) {
 		t=t+":"+std::to_string(temp);
 	}
@@ -215,7 +218,7 @@ bool Reset(timer* clk){
 					int hr;
 					std::cin >> hr;
 					hr=hr%24;
-					std::cout << hr << std::endl;
+				
 
 					std::cout << "MIN: \n";
 					int min;
