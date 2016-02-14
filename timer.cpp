@@ -17,7 +17,7 @@ timer::timer(int hours, int minutes, int seconds)
 	m_seconds = seconds;
 	m_seconds_1970 = time(0);
 	m_24hour_flag = false;
-	m_am_pm="am";
+
 }
 
 timer::~timer()
@@ -72,15 +72,15 @@ int timer::getHours()
 		{
 			return(m_hours - 12);
 		}
-		else
+		 else if(m_hours==0)
 		{
-			return(m_hours);
+			return(12);
 		}
 	}
-	else
-	{
+
+
 		return(m_hours);
-	}
+	
 
 }
 
@@ -125,7 +125,3 @@ void timer::set24hourmode(bool mode)
 {
 	m_24hour_flag = mode;
 }
- void timer::setam_pm(std::string s) {
-	m_am_pm=s;
-	return;
- }

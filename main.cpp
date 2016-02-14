@@ -7,6 +7,7 @@
 #include <fstream>
 #include <functional>
 #include "timer.h"
+#include <limits>
 
 /*
 *	@pre a pointer to a timer is passed in
@@ -39,36 +40,46 @@ int main()
 // user needs to have defined set the time before this point
 	std::cout <<"orignal time:"<< gettime(t);
 	std::cout <<"\n";
+	char readchar= 'y';
 
-
-	int startSecs = t->getSeconds();
+	int startSecs = time(0);
 	int curSecs = startSecs;
+
+	std::ifstream time_reader;
 
 	do
 	{
 
 		std::cout << gettime(t)<<"\r";
 		t->timing();
-		if(t->getSeconds()==curSecs+1)
-		{
-			curSecs++;
-		}
+		curSecs=time(0);
 
-		if(curSecs == startSecs+15) //open file, check if its a y, if it is a 'n' break the loop and return to the menu, else
+		if(curSecs >= startSecs+15) //open file, check if its a y, if it is a 'n' break the loop and return to the menu, else
 		{
-			startSecs = t->getSeconds();
-			std::ifstream time("time.txt");
-			char readIn = 'n';
-			time >> readIn;
-			if(readIn != 'y')
+			startSecs=curSecs;
+			time_reader.open("time.txt");
+			char c=time_reader.get();
+
+			std::cout << c << std::endl;
+
+
+
+			if(c != readchar)
 			{
 				time_lord=Reset(t);
+				time_reader.close();
+				time_reader.open("time.txt");
+				if(time_reader.good()){
+				readchar=time_reader.get();
 			}
+			}
+
+			time_reader.close();
 
 		}
 
 
-		std::ifstream time("time.txt");
+
 	}while(time_lord);
 				delete t;
         return(0);
@@ -105,7 +116,7 @@ void Start(timer* clk)
 					break;
 				} else
 				{
-					std::cout << "Invalid input" << std::endl;
+					std::cout << "Invalid input"<<am_pm << std::endl;
 					std::cout << "Am or PM?" << std::endl;
 					std::cin >> am_pm;
 				}
@@ -129,26 +140,49 @@ void Start(timer* clk)
   std::cout << "HR: \n";
   int hr;
   std::cin >> hr;
+	while(std::cin.fail()) {
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<int>::max(),'\n');
+    std::cout << "Bad entry.  Enter a NUMBER: ";
+    std::cin >> hr;
+}
+
 	hr=hr%24;
 
 
   std::cout << "MIN: \n";
   int min;
   std::cin >> min;
+	while(std::cin.fail()) {
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<int>::max(),'\n');
+    std::cout << "Bad entry.  Enter a NUMBER: ";
+    std::cin >> min;
+}
 	min=min%60;
 
   std::cout << "Sec:\n ";
   int sec;
   std::cin >> sec;
+	while(std::cin.fail()) {
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<int>::max(),'\n');
+    std::cout << "Bad entry.  Enter a NUMBER: ";
+    std::cin >> sec;
+}
 	sec=sec%60;
 
 
-if(clk->get24hourmode()==false && am_pm=="pm")
-{
-	hr=hr%12;
-	hr=hr+12;
-
-}
+	if(clk->get24hourmode()==false)
+	{
+		if (am_pm=="pm") {
+			hr=hr%12;
+			hr=hr+12;
+		}
+		else if (hr==12) {
+			hr=0;
+		}
+	}
   clk->setHours(hr);
   clk->setMinutes(min);
   clk->setSeconds(sec);
@@ -218,31 +252,57 @@ bool Reset(timer* clk){
 			 				} else
 			 				{
 			 					std::cout << "Invalid input" << std::endl;
+
 			 					std::cout << "Am or PM?" << std::endl;
 			 					std::cin >> am_pm;
 			 				}
 			 			} while(true);
 					}
 					std::cout << "HR: \n";
-					int hr;
-					std::cin >> hr;
-					hr=hr%24;
-				
+				  int hr;
+				  std::cin >> hr;
+					while(std::cin.fail()) {  //learned how to
+				    std::cin.clear();
+				    std::cin.ignore(std::numeric_limits<int>::max(),'\n');
+				    std::cout << "Bad entry.  Enter a NUMBER: ";
+				    std::cin >> hr;
+				}
 
-					std::cout << "MIN: \n";
-					int min;
-					std::cin >> min;
+					hr=hr%24;
+
+
+				  std::cout << "MIN: \n";
+				  int min;
+				  std::cin >> min;
+					while(std::cin.fail()) {
+				    std::cin.clear();
+				    std::cin.ignore(std::numeric_limits<int>::max(),'\n');
+				    std::cout << "Bad entry.  Enter a NUMBER: ";
+				    std::cin >> min;
+				}
 					min=min%60;
 
-					std::cout << "Sec:\n ";
-					int sec;
-					std::cin >> sec;
+				  std::cout << "Sec:\n ";
+				  int sec;
+				  std::cin >> sec;
+					while(std::cin.fail()) {
+				    std::cin.clear();
+				    std::cin.ignore(std::numeric_limits<int>::max(),'\n');
+				    std::cout << "Bad entry.  Enter a NUMBER: ";
+				    std::cin >> sec;
+				}
 					sec=sec%60;
 
-					if(clk->get24hourmode()==false && am_pm=="pm")
+					if(clk->get24hourmode()==false)
 					{
-						hr=hr%12;
-						hr=hr+12;
+						if (am_pm=="pm") {
+							hr=hr%12;
+							hr=hr+12;
+						}
+						else if(hr==12) {
+							hr=0;
+						}
+
 
 					}
 					  clk->setHours(hr);

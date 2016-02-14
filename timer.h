@@ -73,10 +73,8 @@ class timer
 		*/
 		void set24hourmode(bool mode);
 
-		/** @pre  None
-		*   @post 12 hour mode will display either am or pm
-		*/
-		void setam_pm(std::string s);
+		
+
 
 		//Member variables
 
@@ -87,7 +85,7 @@ class timer
 		int m_minutes;
 		int m_seconds;
 		//might need a flag to help with this
-		std::string m_am_pm;
+
 		//If mode is 12 hour, m_24hour_flag = false. If mode is 24 hour, m_24hour_flag = true
 		bool m_24hour_flag;
 };
