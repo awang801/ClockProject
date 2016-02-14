@@ -8,8 +8,25 @@
 #include <functional>
 #include "timer.h"
 
+/*
+*	@pre a pointer to a timer is passed in
+*	@post the time of the clock is Set
+*	@return none
+*/
 void Start(timer* clk);
+
+/*
+*	@pre time.txt is changed, a timer that is set is passed in
+*	@post
+*	@return true if the timer is changed and the user has finished changes
+*/
 bool Reset(timer* clk);
+
+/*
+*	@pre a clock has been passed in
+*	@post  none
+*	@return a the time is formatted to a string
+*/
 std::string gettime(timer* clk);
 
 
@@ -67,7 +84,6 @@ void Start(timer* clk)
  std::cin >> temp;
  bool inputflag;
  do{
-
 
     if(temp=='Y'||temp=='y')
     {
@@ -136,8 +152,6 @@ if(clk->get24hourmode()==false && am_pm=="pm")
   clk->setHours(hr);
   clk->setMinutes(min);
   clk->setSeconds(sec);
-
-
 }
 std::string gettime(timer * clk)
 {
@@ -170,9 +184,6 @@ std::string gettime(timer * clk)
  return t;
 }
 
-
-
-
 bool Reset(timer* clk){
 		int i=1;
 		while(i==1){
@@ -188,8 +199,6 @@ bool Reset(timer* clk){
 
 			if (input==1) {
 				clk->set24hourmode(!(clk->get24hourmode()));
-
-
 			}
 			else if (input==2) {
 
