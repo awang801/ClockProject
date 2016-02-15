@@ -38,9 +38,6 @@ int main()
 	Start(t);
 	bool time_lord=true;
 // user needs to have defined set the time before this point
-	std::cout <<"orignal time:"<< gettime(t);
-	std::cout <<"\n";
-
 
 	int startSecs = time(0);
 	int curSecs = startSecs;
