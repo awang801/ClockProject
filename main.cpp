@@ -40,15 +40,15 @@ int main()
 // user needs to have defined set the time before this point
 	std::cout <<"orignal time:"<< gettime(t);
 	std::cout <<"\n";
-	
+
 
 	int startSecs = time(0);
 	int curSecs = startSecs;
-	
+
 	std::ifstream time_reader("time.txt");
 	char readchar= time_reader.get();
 	time_reader.close();
-	
+
 	do
 	{
 
@@ -62,7 +62,7 @@ int main()
 			time_reader.open("time.txt");
 			char c=time_reader.get();
 
-			std::cout << c << std::endl;
+			std::cout << c << "\r";
 
 
 
