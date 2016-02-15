@@ -49,7 +49,7 @@ void timer::timing()
 	//Updating m_minutes, and keeping track of how many (if any) hours to add
 	m_minutes = m_minutes + minutes_to_add;
 	int hours_to_add = 0;
-	while (m_minutes > 60)
+	while (m_minutes >= 60)
 	{
 		m_minutes = m_minutes - 60;
 		hours_to_add++;

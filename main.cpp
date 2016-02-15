@@ -40,13 +40,15 @@ int main()
 // user needs to have defined set the time before this point
 	std::cout <<"orignal time:"<< gettime(t);
 	std::cout <<"\n";
-	char readchar= 'y';
+	
 
 	int startSecs = time(0);
 	int curSecs = startSecs;
-
-	std::ifstream time_reader;
-
+	
+	std::ifstream time_reader("time.txt");
+	char readchar= time_reader.get();
+	time_reader.close();
+	
 	do
 	{
 
@@ -54,7 +56,7 @@ int main()
 		t->timing();
 		curSecs=time(0);
 
-		if(curSecs >= startSecs+15) //open file, check if its a y, if it is a 'n' break the loop and return to the menu, else
+		if(curSecs >= startSecs+5) //open file, check if its a y, if it is a 'n' break the loop and return to the menu, else
 		{
 			startSecs=curSecs;
 			time_reader.open("time.txt");
