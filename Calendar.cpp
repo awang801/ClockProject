@@ -4,6 +4,11 @@
 
 #include<iostream>
 
+/*
+This function returns the day of the weekday
+@param int month, int day
+@return string day of week
+*/
 
 std::string Calendar(int month, int day)
 {
