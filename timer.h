@@ -1,4 +1,5 @@
 #include <string>
+#include <cmath>
 class timer
 {
 	public:
@@ -53,37 +54,24 @@ class timer
 		//Set methods for hours, minutes, seconds
 		//--------------------------------------
 
-		/** @pre  hours is assumed to be a valid integer representation for an "hour"
-		*   @post Sets hours to integer passed in
+		/** @pre  seconds_change is an integer
+		*   @post Adjusts time by given number of seconds, accounting for rollover.  Updates the day of the week if necessary
 		*/
-		void setHours(int hours);
-
-		/** @pre  minutes is assumed to be a valid integer representation for a "minute"
-		*   @post Sets hours to integer passed in
-		*/
-		void setMinutes(int minutes);
-
-		/** @pre  seconds is assumed to be a valid integer representation for a "second"
-		*   @post Sets hours to integer passed in
-		*/
-		void setSeconds(int seconds);
+		void addTime(int seconds_change);
 
 		/** @pre  None
 		*   @post Mode is set to either 24 hour mode or 24 hour mode
 		*/
 		void set24hourmode(bool mode);
 
-		
+
 
 
 		//Member variables
 
 
 	private:
-		int m_seconds_1970;
-		int m_hours;
-		int m_minutes;
-		int m_seconds;
+		int m_time_seconds;
 		//might need a flag to help with this
 
 		//If mode is 12 hour, m_24hour_flag = false. If mode is 24 hour, m_24hour_flag = true

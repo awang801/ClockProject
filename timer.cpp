@@ -3,19 +3,19 @@
 
 timer::timer()
 {
-	m_hours = 0;
-	m_minutes = 0;
-	m_seconds = 0;
+	m_time_seconds = 0;
 	m_24hour_flag = false;
-	m_seconds_1970 = time(0);
+}
+
+timer::timer(int seconds)
+{
+	m_time_seconds = seconds;
+	m_24hour_flag = false;
 }
 
 timer::timer(int hours, int minutes, int seconds)
 {
-	m_hours = hours;
-	m_minutes = minutes;
-	m_seconds = seconds;
-	m_seconds_1970 = time(0);
+	m_time_seconds = hours * 3600 + minutes * 60 + seconds;
 	m_24hour_flag = false;
 
 }
@@ -26,6 +26,7 @@ timer::~timer()
 
 void timer::timing()
 {
+	//TODO: Redo this
 	//Temp storage for prior timing
 	int temp = m_seconds_1970;
 
@@ -44,9 +45,8 @@ void timer::timing()
 	{
 		m_seconds = m_seconds - 60;
 		minutes_to_add++;
-	}
-
-	//Updating m_minutes, and keeping track of how many (if any) hours to add
+	}int daysAdded = (m_time_seconds - (m_time_seconds % 86400)) / 86400;
+		m_time_seconds = m_time_seconds % 86400; // of how many (if any) hours to add
 	m_minutes = m_minutes + minutes_to_add;
 	int hours_to_add = 0;
 	while (m_minutes >= 60)
@@ -64,26 +64,6 @@ void timer::timing()
 
 }
 
-int timer::getHours()
-{
-	if (m_24hour_flag == false)
-	{
-		if (m_hours > 12)
-		{
-			return(m_hours - 12);
-		}
-		 else if(m_hours==0)
-		{
-			return(12);
-		}
-	}
-
-
-		return(m_hours);
-	
-
-}
-
 std::string timer::getam_pm()
 {
 	if(m_hours<12){
@@ -91,34 +71,45 @@ std::string timer::getam_pm()
 	}else{return("pm");}
 }
 
+int timer::getHours()
+{
+	if(m_24hour_flag)
+	{
+	}
+	return (((m_time_seconds - 60 * getMinutes() - getSeconds()) / 3600) % 12 + 1);
+}
+
 int timer::getMinutes()
 {
-	return(m_minutes);
+	return ((m_time_seconds % 3600 - getSeconds()) / 60);
 }
 
 int timer::getSeconds()
 {
-	return(m_seconds);
+	return (m_time_seconds % 60);
 }
 
 bool timer::get24hourmode()
 {
-	return(m_24hour_flag);
+	return (m_24hour_flag);
 }
 
-void timer::setHours(int hours)
+void addTime(int seconds_change)
 {
-	m_hours = hours;
-}
+	m_time_seconds += seconds_change;
+	if(m_time_seconds>=86400)
+	{
+		int daysAdded = (m_time_seconds - (m_time_seconds % 86400)) / 86400;
+		m_time_seconds = m_time_seconds % 86400;
+		//add daysAdded days to the calendar
+	}
+	else if(m_time_seconds<0)
+	{
+		int daysSubtracted = 1 + ((abs(m_time_seconds) - (abs(m_time_seconds) % 86400)) / 86400);
+		m_time_seconds = ((m_time_seconds % 86400) + 86400) % 86400;
 
-void timer::setMinutes(int minutes)
-{
-	m_minutes = minutes;
-}
-
-void timer::setSeconds(int seconds)
-{
-	m_seconds = seconds;
+		//subtract daysSubtracted from the calendar
+	}
 }
 
 void timer::set24hourmode(bool mode)
