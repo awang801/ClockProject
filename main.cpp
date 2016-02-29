@@ -8,9 +8,10 @@
 #include <functional>
 #include "timer.h"
 #include <limits>
-
 //For int to string conversion
 #include <sstream>
+//Project 2 includes
+#include <thread>
 
 /*
 *	@pre a pointer to a timer is passed in
@@ -37,7 +38,7 @@ std::string gettime(timer* clk);
 
 /*
 *	Converts an integer to a std::string
-*	This is needed because std::to_string (as used in the original implementation) is not supported in every compiler 
+*	This is needed because std::to_string (as used in the original implementation) is not supported in every compiler
 *	@param num the integer to be converted
 *	@returns a std::string representation of the given integer
 */
@@ -51,13 +52,10 @@ std::string intToStr(int num){
 	return (stringConverter.str());
 }
 
-int main()
+void run(timer* t, int timer_ms)
 {
-	timer* t=new timer();
-
-	Start(t);
 	bool time_lord=true;
-// user needs to have defined set the time before this point
+	// user needs to have defined set the time before this point
 
 	int startSecs = time(0);
 	int curSecs = startSecs;
@@ -66,8 +64,12 @@ int main()
 	char readchar= time_reader.get();
 	time_reader.close();
 
+	long int timeTracker;
 	do
 	{
+
+		//this gets the current timestamp in milliseconds
+    timeTracker = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
 
 		std::cout << gettime(t)<<"\r";
 		t->timing();
@@ -95,14 +97,28 @@ int main()
 
 			time_reader.close();
 
+			//sleep for the remainder of timer_ms (less the time it took to execute digitalRun)
+	    std::this_thread::sleep_for(std::chrono::milliseconds(timeTracker + (long) timer_ms - (long) std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count()));
 		}
-
-
-
 	}while(time_lord);
-				delete t;
-        return(0);
 }
+
+int main()
+{
+	timer* t=new timer();
+
+	Start(t);
+
+	std::thread timerCaller (run, t, 300);  // spawn new thread
+
+  std::cout << "It's working!!1!\n";
+	timerCaller.join();
+	
+	delete t;
+  return(0);
+}
+
+
 /*
 user setting time of clock
 */
@@ -346,6 +362,3 @@ bool Reset(timer* clk){
 	}
 	return (true);
 }
-
-
-
