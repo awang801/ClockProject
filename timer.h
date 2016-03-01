@@ -4,17 +4,17 @@ class timer
 {
 	public:
 		/** @pre  None
-		*   @post timer created with start time at midnight
+		*   @post timer created with start time of midnight and m_24hour_flag set to false
 		*/
 		timer();
 
 		/**	@pre None
-		*		@post timer created with start time at given number of seconds
+		*		@post timer created with start time at given number of seconds and m_24hour_flag set to false
 		*/
 		timer(int seconds);
 
 		/** @pre  None
-		*   @post timer created with start time at given number of hours, minutes, and seconds
+		*   @post timer created with start time at given number of hours, minutes, and seconds and m_24hour_flag set to false
 		*/
 		timer(int hours, int minutes, int seconds);
 
@@ -31,21 +31,23 @@ class timer
 		//--------------------------------------
 
 		/** @pre None
-		*   @return Returns number of hours
+		*   @return number of hours
 		*/
 		int getHours();
 
 		/** @pre None
-		*   @return Returns number of minutes
+		*   @return number of minutes
 		*/
 		int getMinutes();
 
 		/** @pre    None
-		*   @return Returns number of seconds
+		*   @return number of seconds
 		*/
 		int getSeconds();void
-		*   @post Returns mode of clock
-		*/
+
+		/*
+		*   @returns m_24hour_flag
+		/*
 		bool get24hourmode();
 
 
