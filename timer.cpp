@@ -24,25 +24,31 @@ timer::~timer()
 {
 }
 
-void timer::timing()
+int timer::timing()
 {
 	return addTime(1);
 }
 
 std::string timer::getam_pm()
 {
-	if(m_hours<12){
+	if(m_time_seconds<43200)
+	{
 		return("am");
-	}else{return("pm");}
+	}
+	else
+	{
+		return("pm");
+	}
 }
 
 int timer::getHours()
 {
-	//fix
+	int rawHours = ((m_time_seconds - 60 * getMinutes() - getSeconds()) / 3600);
 	if(m_24hour_flag)
 	{
+		return rawHours;
 	}
-	return (((m_time_seconds - 60 * getMinutes() - getSeconds()) / 3600) % 12);
+	return (rawHours == 0) ? 12 : rawHours % 12;
 }
 
 int timer::getMinutes()

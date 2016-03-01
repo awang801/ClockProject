@@ -4,12 +4,17 @@ class timer
 {
 	public:
 		/** @pre  None
-		*   @post Timer defaulted to current Central time
+		*   @post timer created with start time at midnight
 		*/
 		timer();
 
-		/** @pre  hours, minutes, seconds are assumed to be valid numbers for hours, minutes, seconds
-		*   @post m_hours, m_minutes, m_seconds are set to user defined inputs
+		/**	@pre None
+		*		@post timer created with start time at given number of seconds
+		*/
+		timer(int seconds);
+
+		/** @pre  None
+		*   @post timer created with start time at given number of hours, minutes, and seconds
 		*/
 		timer(int hours, int minutes, int seconds);
 
@@ -17,8 +22,9 @@ class timer
 
 		/** @pre  None
 		*   @post Variables for time are updated
+		* 	@return dayChange the change in day from adding the second (should be either 0 or 1)
 		*/
-		void timing();
+		int timing();
 
 		//--------------------------------------
 		//Get methods for hours, minutes, seconds
@@ -37,9 +43,7 @@ class timer
 		/** @pre    None
 		*   @return Returns number of seconds
 		*/
-		int getSeconds();
-
-		/** @pre  None
+		int getSeconds();void
 		*   @post Returns mode of clock
 		*/
 		bool get24hourmode();
