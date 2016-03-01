@@ -1,3 +1,14 @@
+/**
+*  @author	John McCain <johnm.freestate@gmail.com>
+*  @author 	Audrey Evans <audreyevans@ku.edu>
+*  @author Hari Ramanan <hramanan@ku.edu>
+*  @author	Alan Wang <ultimate801@gmail.com>
+*  @version 2.0 &nbsp;
+*  @since 2016-02-14
+*/
+
+
+
 #include <iostream>
 #include <string>
 #include <random>
@@ -33,8 +44,8 @@ bool Reset(timer* clk);
 *	@return a the time is formatted to a string
 */
 std::string gettime(timer* clk);
-
-
+int monthtemp;
+int daytemp;
 
 /*
 *	Converts an integer to a std::string
@@ -51,6 +62,34 @@ std::string intToStr(int num){
 
 	return (stringConverter.str());
 }
+
+/*
+This function returns the day of the weekday
+@param int month, int day
+@return string day of week
+*/
+std::string Calendar(int month, int day)
+{
+	int m_value = 0;
+	int months[] = {31,29,31,30,31,30,31,31,30,31,30,31};
+	std::string weekday[] = {"Fri","Sat","Sun","Mon","Tues","Wed","Thurs"};
+
+	for(int i=0;i<month-1;i++)
+	{
+		m_value += months[i];
+	}
+	m_value += day;
+	m_value = (m_value%7);
+
+
+
+	if((m_value) == 0)
+	{
+		return(weekday[6]);
+	}
+	return (weekday[m_value-1]);
+}
+
 
 void run(timer* t, int timer_ms)
 {
@@ -72,6 +111,8 @@ void run(timer* t, int timer_ms)
     timeTracker = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
 
 		std::cout << gettime(t)<<"\r";
+
+
 		t->timing();
 		curSecs=time(0);
 
@@ -112,8 +153,10 @@ int main()
 	std::thread timerCaller (run, t, 300);  // spawn new thread
 
   std::cout << "It's working!!1!\n";
+	std::string weekday = Calendar(monthtemp,daytemp);
+	std::cout<< weekday+"\n";
 	timerCaller.join();
-	
+
 	delete t;
   return(0);
 }
@@ -124,11 +167,17 @@ user setting time of clock
 */
 void Start(timer* clk)
 {
- std::cout << "24 hr mode? (y/n)?" << std::endl;
- char temp;
- std::string am_pm="";
- std::cin >> temp;
- bool inputflag;
+	std::cout<<"Month?"<<std::endl;
+
+	std::cin>>monthtemp;
+	std::cout<<"Day?"<<std::endl;
+	std::cin>>daytemp;
+
+	 std::cout << "24 hr mode? (y/n)?" << std::endl;
+	 char temp;
+	 std::string am_pm="";
+	 std::cin >> temp;
+	 bool inputflag;
  do{
 
     if(temp=='Y'||temp=='y')
