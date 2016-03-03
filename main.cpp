@@ -47,19 +47,19 @@ std::string intToStr(int num){
 
 void run(timer* clk, int timer_ms)
 {
-	bool time_lord=true;
+	bool loopControl = true;
 	// user needs to have defined set the time before this point
 
 	//Used for keepign track of timing using chrono
 	long int timeTracker;
-	do
+	while(loopControl)
 	{
 
 		//this gets the current timestamp in milliseconds
     timeTracker = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
 
 		//This prints the time
-		std::cout << gettime(clk)<<"\r";
+		std::cout << gettime(clk) << "\n";
 
 		//This increments the second counter
 		clk->timing();
@@ -69,16 +69,14 @@ void run(timer* clk, int timer_ms)
 		//sleep for the remainder of timer_ms (less the time it took to execute digitalRun)
 		std::this_thread::sleep_for(std::chrono::milliseconds(timeTracker + (long) timer_ms - (long) std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count()));
 
-	}while(time_lord);
+	}
 }
 
 int main()
 {
 	timer* clk=new timer();
 
-	Start(clk);
-
-	std::thread timerCaller (run, clk, 300);  // spawn new thread
+	std::thread timerCaller (run, clk, 1000);  // spawn new thread
 
 	//Wait for the run thread to end (clock to end) then join so that resources can be deleted and program can terminate
 	timerCaller.join();

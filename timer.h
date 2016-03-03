@@ -1,7 +1,17 @@
+#ifndef TIMER_H
+#define TIMER_H
 #include <string>
 #include <cmath>
 class timer
 {
+	private:
+		//Member variables
+		//Represents the time in seconds out of the day (always between 0-86399)
+		int m_time_seconds;
+
+		//If mode is 12 hour, m_24hour_flag = false. If mode is 24 hour, m_24hour_flag = true
+		bool m_24hour_flag;
+
 	public:
 		/** @pre  None
 		*   @post timer created with start time of midnight and m_24hour_flag set to false
@@ -20,12 +30,6 @@ class timer
 
 		~timer();
 
-		/** @pre  None
-		*   @post Variables for time are updated
-		* 	@return dayChange the change in day from adding the second (should be either 0 or 1)
-		*/
-		int timing();
-
 		//--------------------------------------
 		//Get methods for hours, minutes, seconds
 		//--------------------------------------
@@ -43,11 +47,25 @@ class timer
 		/** @pre    None
 		*   @return number of seconds
 		*/
-		int getSeconds();void
+		int getSeconds();
 
-		/*
+		/**
+		*		@return m_time_seconds the time in seconds
+		*/
+		int getTimeInSeconds();
+
+		/**
+		*		@returns m_time_seconds the time in se	private:
+		//Member variables
+		//Represents the time in seconds out of the day (always between 0-86399)
+		int m_time_seconds;
+
+		//If mode is 12 hour, m_24hour_flag = false. If mode is 24 hour, m_24hour_flag = true
+		bool m_24hour_flag;
+
+		/**
 		*   @returns m_24hour_flag
-		/*
+		*/
 		bool get24hourmode();
 
 
@@ -57,29 +75,33 @@ class timer
 		std::string getam_pm();
 
 		//--------------------------------------
-		//Set methods for hours, minutes, seconds
+		//Set methods
 		//--------------------------------------
 
 		/** @pre  seconds_change is an integer
 		*   @post Adjusts time by given number of seconds, accounting for rollover.  Updates the day of the week if necessary
 		*/
-		void addTime(int seconds_change);
+		int addTime(int seconds_change);
+
+		/**
+		*		@returns myTime safely rounded off (so that it is definitely in the valid time range)
+		*/
+		int safeRound(int myTime);
+
+		/**
+		*		@post m_time_seconds is set to newTime
+		*/
+		void setTimeInSeconds(int newTIme);
 
 		/** @pre  None
 		*   @post Mode is set to either 24 hour mode or 24 hour mode
 		*/
 		void set24hourmode(bool mode);
 
-
-
-
-		//Member variables
-
-
-	private:
-		int m_time_seconds;
-		//might need a flag to help with this
-
-		//If mode is 12 hour, m_24hour_flag = false. If mode is 24 hour, m_24hour_flag = true
-		bool m_24hour_flag;
+		/** @pre  None
+		*   @post Variables for time are updated
+		* 	@return dayChange the change in day from adding the second (should be either 0 or 1)
+		*/
+		int timing();
 };
+#endif

@@ -17,16 +17,10 @@ timer::timer(int hours, int minutes, int seconds)
 	m_time_seconds = hours * 3600 + minutes * 60 + seconds;
 	m_time_seconds = ((m_time_seconds % 86400) + 86400) % 86400;
 	m_24hour_flag = false;
-
 }
 
 timer::~timer()
 {
-}
-
-int timer::timing()
-{
-	return addTime(1);
 }
 
 std::string timer::getam_pm()
@@ -46,8 +40,9 @@ int timer::getHours()
 	int rawHours = ((m_time_seconds - 60 * getMinutes() - getSeconds()) / 3600);
 	if(m_24hour_flag)
 	{
-		return rawHours;
+		int addTime(int seconds_change);
 	}
+
 	return (rawHours == 0) ? 12 : rawHours % 12;
 }
 
@@ -61,12 +56,17 @@ int timer::getSeconds()
 	return (m_time_seconds % 60);
 }
 
+int timer::getTimeInSeconds()
+{
+	return m_time_seconds;
+}
+
 bool timer::get24hourmode()
 {
 	return (m_24hour_flag);
 }
 
-int addTime(int seconds_change)
+int timer::addTime(int seconds_change)
 {
 	m_time_seconds += seconds_change;
 	if(m_time_seconds>=86400)
@@ -78,13 +78,31 @@ int addTime(int seconds_change)
 	else if(m_time_seconds<0)
 	{
 		int dayChange = 1 + ((abs(m_time_seconds) - (abs(m_time_seconds) % 86400)) / 86400);
-		m_time_seconds = ((m_time_seconds % 86400) + 86400) % 86400;
+		m_time_seconds = safeRound(m_time_seconds);
 		return dayChange * (-1);
 	}
 	return 0;
 }
 
+int timer::safeRound(int myTime)
+{
+	return ((myTime % 86400) + 86400) % 86400;
+}
+
+void timer::setTimeInSeconds(int newTime)
+{
+	m_time_seconds = newTime;
+}
+
 void timer::set24hourmode(bool mode)
 {
 	m_24hour_flag = mode;
+}
+
+int timer::timing()
+{
+
+
+
+	return addTime(1);
 }
