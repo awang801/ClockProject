@@ -1,0 +1,28 @@
+***************
+CLOCKSHELL HELP
+***************
+exit - Exit the program.
+help - Display this help message.
+stop - Stop the clock, timer, or stopwatch.
+start - Start the clock, timer, or stopwatch.
+timeFormat - Change the time format.  Valid syntax is "timeFormat 24" or "timeFormat 12" to specify 24 or 12 hour time.
+display - Turn the display on or off.  Valid syntax is "display off" or "display on" to specify turning the display on or off.
+zoom - Toggle the display zoom.
+stopwatch - Used to give commands to the stopwatch.
+			To enter stopwatch mode, enter "stopwatch"
+            To start the stopwatch, enter "stopwatch start", and to stop enter "stopwatch stop"
+            To reset the stopwatch, enter "stopwatch reset"
+            To exit stopwatch mode, enter "stopwatch exit"
+timer - Enter timer mode
+            To enter timer mode enter "timer".
+            To set the the time of the timer, enter timer mode and then just use "<hour|minute|second>" "<add|sub|set> <valid_integer_argument>" as normal
+            To start the timer enter "timer start", and to stop the timer enter "timer stop"
+            To exit timer mode enter "timer exit"
+hour - Specify a change in the number of hours using add, sub, or set commands.
+minute - Specify a change in the number of minutes using add, sub, or set commands.
+second - Specify a change in the number of seconds using add, sub, or set commands.
+month - Specify a change in the month using add, sub, or set commands.
+day - Specify a change in the day using add or sub commands.  Set is not an available command for day.
+add - Secondary command used to add to the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour add 3)
+sub - Secondary command used to subtract from the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour sub 5)
+set - Secondary command used to set the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: month set 3).  Note: the integer argument must be within the valid range.
