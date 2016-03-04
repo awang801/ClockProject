@@ -10,14 +10,14 @@
 int stoi( std::string str )
 {
 	std::istringstream stoi(str); 
-	int hourSet;
+	int num;
 
-	if ( !(stoi >> hourSet) )
+	if ( !(stoi >> num) )
 	{
 		//uh oh
-		hourSet = -1;
+		num = -1;
 	}
-	return hourSet;
+	return num;
 }
 
 std::string itos(int var)

@@ -7,12 +7,54 @@
 #include <stdexcept>
 #include <locale>
 
+/*******************
+FUNCTION PROTOTYPES
+*******************/
+
+//TODO: add documentation
+
+std::vector<std::string> divide(std::string command);
+
+int getCommandId(std::string command);
+
+void sendCommand(std::string command);
+
+/*
+*	Converts a std::string to an integer
+*	This is needed because std::stoi is not supported in every compiler
+*	@param str the std::string to be converted
+*	@returns num the integer extracted from str
+*/
+int stoi(std::string str);
+
+/*
+*	Converts an integer to a std::string
+*	This is needed because std::to_string (as used in the original implementation) is not supported in every compiler
+*	@param num the integer to be converted
+*	@returns a std::string representation of the given integer
+*/
+std::string itos(int var);
+
+std::string stringToLowercase(std::string str);
+
+bool isStringInteger(std::string str);
+
+int main(int argc, char* argv[]);
+
+/*******************
+MEMBER VARIABLES
+*******************/
+
 bool stopwatchMode = false;
 bool timerMode = false;
 
-std::string validCommands[17] = {"exit", "help", "stop", "start", "timeFormat", "display", "zoom", "stopwatch", "timer", "hour", "minute", "second", "month", "day", "add", "sub", "set"};
+const std::string validCommands[17] = {"exit", "help", "stop", "start", "timeFormat", "display", "zoom", "stopwatch", "timer", "hour", "minute", "second", "month", "day", "add", "sub", "set"};
 
-std::string helpString = "***************\nCLOCKSHELL HELP\n***************\nexit - Exit the program.\nhelp - Display this help message.\nstop - Stop the clock, timer, or stopwatch.\nstart - Start the clock, timer, or stopwatch.\ntimeFormat - Change the time format.  Valid syntax is \"timeFormat 24\" or \"timeFormat 12\" to specify 24 or 12 hour time.\ndisplay - Turn the display on or off.  Valid syntax is \"display off\" or \"display on\" to specify turning the display on or off.\nzoom - Toggle the display zoom.\nstopwatch - Used to give commands to the stopwatch.\n			To enter stopwatch mode, enter \"stopwatch\"\n            To start the stopwatch, enter \"stopwatch start\", and to stop enter \"stopwatch stop\"\n            To reset the stopwatch, enter \"stopwatch reset\"\n            To exit stopwatch mode, enter \"stopwatch exit\"\ntimer - Enter timer mode\n            To enter timer mode enter \"timer\".\n            To set the the time of the timer, enter timer mode and then just use \"<hour|minute|second>\" \"<add|sub|set> <valid_integer_argument>\" as normal\n            To start the timer enter \"timer start\", and to stop the timer enter \"timer stop\"\n            To exit timer mode enter \"timer exit\"\nhour - Specify a change in the number of hours using add, sub, or set commands.\nminute - Specify a change in the number of minutes using add, sub, or set commands.\nsecond - Specify a change in the number of seconds using add, sub, or set commands.\nmonth - Specify a change in the month using add, sub, or set commands.\nday - Specify a change in the day using add or sub commands.  Set is not an available command for day.\nadd - Secondary command used to add to the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour add 3)\nsub - Secondary command used to subtract from the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour sub 5)\nset - Secondary command used to set the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: month set 3).  Note: the integer argument must be within the valid range.";
+const std::string helpString = "***************\nCLOCKSHELL HELP\n***************\nexit - Exit the program.\nhelp - Display this help message.\nstop - Stop the clock, timer, or stopwatch.\nstart - Start the clock, timer, or stopwatch.\ntimeFormat - Change the time format.  Valid syntax is \"timeFormat 24\" or \"timeFormat 12\" to specify 24 or 12 hour time.\ndisplay - Turn the display on or off.  Valid syntax is \"display off\" or \"display on\" to specify turning the display on or off.\nzoom - Toggle the display zoom.\nstopwatch - Used to give commands to the stopwatch.\n			To enter stopwatch mode, enter \"stopwatch\"\n            To start the stopwatch, enter \"stopwatch start\", and to stop enter \"stopwatch stop\"\n            To reset the stopwatch, enter \"stopwatch reset\"\n            To exit stopwatch mode, enter \"stopwatch exit\"\ntimer - Enter timer mode\n            To enter timer mode enter \"timer\".\n            To set the the time of the timer, enter timer mode and then just use \"<hour|minute|second>\" \"<add|sub|set> <valid_integer_argument>\" as normal\n            To start the timer enter \"timer start\", and to stop the timer enter \"timer stop\"\n            To exit timer mode enter \"timer exit\"\nhour - Specify a change in the number of hours using add, sub, or set commands.\nminute - Specify a change in the number of minutes using add, sub, or set commands.\nsecond - Specify a change in the number of seconds using add, sub, or set commands.\nmonth - Specify a change in the month using add, sub, or set commands.\nday - Specify a change in the day using add or sub commands.  Set is not an available command for day.\nadd - Secondary command used to add to the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour add 3)\nsub - Secondary command used to subtract from the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour sub 5)\nset - Secondary command used to set the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: month set 3).  Note: the integer argument must be within the valid range.";
+
+/*******************
+FUNCTION DEFINITIONS
+*******************/
 
 //this page was referenced in creating this function http://stackoverflow.com/questions/890164/how-can-i-split-a-string-by-a-delimiter-into-an-array
 std::vector<std::string> divide(std::string command) 
@@ -21,11 +63,11 @@ std::vector<std::string> divide(std::string command)
     std::string next;
     std::vector<std::string> result;
 
-    for ( std::string::const_iterator iter = command.begin(); iter != command.end(); iter++ ) 
+    for(std::string::const_iterator iter = command.begin(); iter != command.end(); iter++) 
     {
-        if ( *iter == delim ) 
+        if(*iter == delim) 
         {
-            if ( !next.empty() ) 
+            if(!next.empty()) 
             {
                 result.push_back(next);
                 next.clear();
@@ -37,18 +79,18 @@ std::vector<std::string> divide(std::string command)
             next += *iter;
         }
     }
-    if ( !next.empty() )
+    if(!next.empty())
     {
-         result.push_back( next );
+         result.push_back(next);
     }
     return result;
 }
 
-int getCommandCode(std::string command)
+int getCommandId(std::string command)
 {
-	for( int i = 0; i < 17; i++ )
+	for(int i = 0; i < 17; i++)
 	{
-		if( command == validCommands[i] )
+		if(command == validCommands[i])
 		{
 			return i;
 		}
@@ -56,10 +98,10 @@ int getCommandCode(std::string command)
 	return -1;
 }
 
-void sendCommand( std::string command )
+void sendCommand(std::string command)
 {
 	bool success = false;
-	while( !success )
+	while(!success)
 	{
 		try
 		{
@@ -76,17 +118,18 @@ void sendCommand( std::string command )
 	}
 }
 
-int stoi( std::string str )
+int stoi(std::string str)
 {
 	std::istringstream stoi(str); 
-	int hourSet;
 
-	if ( !(stoi >> hourSet) )
+	int num;
+
+	if (!(stoi >> num))
 	{
 		//uh oh
-		hourSet = -1;
+		num = -1;
 	}
-	return hourSet;
+	return num;
 }
 
 std::string itos(int var)
@@ -101,11 +144,12 @@ std::string itos(int var)
 std::string stringToLowercase(std::string str)
 {
 	std::locale myLocale;
+
 	std::string lowerString = "";
 
 	for (int i = 0; i < str.length(); i++)
 	{
-		lowerString += std::tolower( str[i], myLocale );
+		lowerString += std::tolower(str[i], myLocale);
 	}
 
 	return lowerString;
@@ -114,21 +158,23 @@ std::string stringToLowercase(std::string str)
 bool isStringInteger(std::string str)
 {
 	std::istringstream ss(str);
+
 	int test;
-	if ( !( ss >> test ) )
+
+	if (!(ss >> test))
 	{
 		return false;
 	}
 	return true;
 }
 
-int main( int argc, char* argv[] )
+int main(int argc, char* argv[])
 {
 	std::cout << "Welcome to the clock shell\n";
 
 	bool loopControl = true;
 	
-	while( loopControl )
+	while(loopControl)
 	{
 		std::string command;
 
@@ -137,41 +183,41 @@ int main( int argc, char* argv[] )
 		else if(timerMode) std::cout << "[timer]";
 		std::cout << ">> ";
 
-		std::getline( std::cin, command );
-		if( command != "" )
+		std::getline(std::cin, command);
+		if(command != "")
 		{
-			std::vector<std::string> commands = divide( command );
+			std::vector<std::string> commands = divide(command);
 
 			std::string primary = commands[0];
 
-			switch( getCommandCode( primary ) )
+			switch(getCommandId(primary))
 			{
 				case 0: //exit
 					std::cout << "Exiting...\n";
-					sendCommand( "000" );
+					sendCommand("000");
 					loopControl = false;
 					break;
 				case 1: //help
 					std::cout << helpString;
 					break;
 				case 2: //stop
-					sendCommand( "001" );
+					sendCommand("001");
 					break;
 				case 3: //start
-					sendCommand( "002" );
+					sendCommand("002");
 					break;
 				case 4:	//timeFormat
-					if( commands.size() < 2 )
+					if(commands.size() < 2)
 					{
 						std::cout << "Error: timeFormat requires an integer argument (valid values are 12 and 24)\n";
 					}
-					else if( commands[1] == "24" ) 
+					else if(commands[1] == "24") 
 					{
-						sendCommand( "003" );
+						sendCommand("003");
 					}
-					else if(commands[1] == "12" )
+					else if(commands[1] == "12")
 					{
-						sendCommand( "004" );
+						sendCommand("004");
 					}
 					else
 					{
@@ -179,17 +225,17 @@ int main( int argc, char* argv[] )
 					}
 					break;
 				case 5: //display
-					if( commands.size() < 2 )
+					if(commands.size() < 2)
 					{
 						std::cout << "Error: display requires a second string argument (valid argumentss are on and off)\n";
 					}
-					else if( stringToLowercase( commands[1] ) == "on")
+					else if(stringToLowercase(commands[1]) == "on")
 					{
-						sendCommand( "005" );
+						sendCommand("005");
 					}
-					else if( stringToLowercase( commands[1] ) == "off" )
+					else if(stringToLowercase(commands[1]) == "off")
 					{
-						sendCommand( "006" );
+						sendCommand("006");
 					}
 					else
 					{
@@ -200,15 +246,15 @@ int main( int argc, char* argv[] )
 					sendCommand("007");
 					break;
 				case 7: //stopwatch
-					if( timerMode )
+					if(timerMode)
 					{
 						std::cout << "Error: you cannot start the stopwatch while in timer mode\n";
 					}
-					else if( commands.size() > 2 )
+					else if(commands.size() > 2)
 					{
 						std::cout << "Error: stopwatch commands cannot have more than 2 arguments (ex: stopwatch <command>)\n";
 					}
-					else if( commands.size() == 1)
+					else if(commands.size() == 1)
 					{
 						if(!stopwatchMode)
 						{
@@ -221,23 +267,23 @@ int main( int argc, char* argv[] )
 							std::cout << "Error: you are already in stopwatch mode\n";
 						}
 					}
-					else if( !stopwatchMode )
+					else if(!stopwatchMode)
 					{
 						std::cout << "Error: you must enter stopwatch mode to control the stopwatch (enter \"stopwatch\" to start stopwatch mode)\n";
 					}
-					else if( stringToLowercase( commands[1] ) == "stop")
+					else if(stringToLowercase(commands[1]) == "stop")
 					{
 						sendCommand("101");
 					}
-					else if( stringToLowercase( commands[1] ) == "start")
+					else if(stringToLowercase(commands[1]) == "start")
 					{
 						sendCommand("102");
 					}
-					else if( stringToLowercase( commands[1] ) == "reset")
+					else if(stringToLowercase(commands[1]) == "reset")
 					{
 						sendCommand("149");
 					}
-					else if( stringToLowercase( commands[1] ) == "exit")
+					else if(stringToLowercase(commands[1]) == "exit")
 					{
 						stopwatchMode = false;
 						std::cout << "Exiting stopwatch mode...\n";
@@ -249,15 +295,15 @@ int main( int argc, char* argv[] )
 					}
 					break;
 				case 8:	//timer
-					if( stopwatchMode )
+					if(stopwatchMode)
 					{
 						std::cout << "Error: you cannot start the timer while in stopwatch mode\n";
 					}
-					else if( commands.size() > 2 )
+					else if(commands.size() > 2)
 					{
 						std::cout << "Error: timer commands cannot have more than 2 arguments (ex: timer command)\n";
 					}
-					else if( commands.size() == 1)
+					else if(commands.size() == 1)
 					{
 						if(!timerMode)
 						{
@@ -270,19 +316,19 @@ int main( int argc, char* argv[] )
 							std::cout << "Error: you are already in timer mode\n";
 						}
 					}
-					else if( !timerMode )
+					else if(!timerMode)
 					{
 						std::cout << "Error: you must enter timer mode to control the timer (enter \"timer\" to start timer mode)\n";
 					}
-					else if( stringToLowercase( commands[1] ) == "stop")
+					else if(stringToLowercase(commands[1]) == "stop")
 					{
 						sendCommand("201");
 					}
-					else if( stringToLowercase( commands[1] ) == "start")
+					else if(stringToLowercase(commands[1]) == "start")
 					{
 						sendCommand("202");
 					}
-					else if( stringToLowercase( commands[1] ) == "exit")
+					else if(stringToLowercase(commands[1]) == "exit")
 					{
 						timerMode = false;
 						std::cout << "Exiting timer mode...\n";
@@ -294,36 +340,36 @@ int main( int argc, char* argv[] )
 					}
 					break;
 				case 9:	//hour
-					if( stopwatchMode )
+					if(stopwatchMode)
 					{
 						std::cout << "Error: you cannot change the hour while in stopwatch mode\n";
 					}
-					else if( commands.size() < 3 )
+					else if(commands.size() < 3)
 					{
 						std::cout << "Error: hour requires a second command (add, sub, or set) and a valid integer argument (must be from 0-23 if using set)\n";
 					}
-					else if( !isStringInteger( commands[2] ) ) 
+					else if(!isStringInteger(commands[2])) 
 					{
 						std::cout << "Error: you did not enter an integer for the argument\n";
 					}
-					else if( stringToLowercase( commands[1] ) == "add" )
+					else if(stringToLowercase(commands[1]) == "add")
 					{
-						sendCommand( "051 " + itos(stoi( commands[2] )) );
+						sendCommand("051 " + itos(stoi(commands[2])));
 					}
-					else if( stringToLowercase( commands[1] ) == "sub" )
+					else if(stringToLowercase(commands[1]) == "sub")
 					{
-						sendCommand( "052 " + itos(stoi( commands[2] )) );
+						sendCommand("052 " + itos(stoi(commands[2])));
 					}
-					else if( stringToLowercase( commands[1] ) == "set" )
+					else if(stringToLowercase(commands[1]) == "set")
 					{
-						int hourSet = stoi( commands[2] );
-						if( hourSet < 0 || hourSet > 23 )
+						int hourSet = stoi(commands[2]);
+						if(hourSet < 0 || hourSet > 23)
 						{
 							std::cout << "Error: you did not enter a valid hour range (0-23)\n";
 						}
 						else
 						{
-							sendCommand( "053 " + itos( hourSet ) );
+							sendCommand("053 " + itos(hourSet));
 						}
 					}
 					else
@@ -332,36 +378,36 @@ int main( int argc, char* argv[] )
 					}
 					break;
 				case 10: //minute
-					if( stopwatchMode )
+					if(stopwatchMode)
 					{
 						std::cout << "Error: you cannot change the minute while in stopwatch mode\n";
 					}
-					else if( commands.size() < 3 )
+					else if(commands.size() < 3)
 					{
 						std::cout << "Error: minute requires a second command (add, sub, or set) and a valid integer argument (must be from 0-59 if using set)\n";
 					}
-					else if( !isStringInteger( commands[2] ) ) 
+					else if(!isStringInteger(commands[2])) 
 					{
 						std::cout << "Error: you did not enter an integer for the argument\n";
 					}
-					else if( stringToLowercase( commands[1] ) == "add" )
+					else if(stringToLowercase(commands[1]) == "add")
 					{
-						sendCommand( "061 " + itos(stoi( commands[2] )) );
+						sendCommand("061 " + itos(stoi(commands[2])));
 					}
-					else if( stringToLowercase( commands[1] ) == "sub" )
+					else if(stringToLowercase(commands[1]) == "sub")
 					{
-						sendCommand( "062 " + itos(stoi( commands[2] )) );
+						sendCommand("062 " + itos(stoi(commands[2])));
 					}
-					else if( stringToLowercase( commands[1] ) == "set" )
+					else if(stringToLowercase(commands[1]) == "set")
 					{
-						int minuteSet = stoi( commands[2] );
-						if( minuteSet < 0 || minuteSet > 23 )
+						int minuteSet = stoi(commands[2]);
+						if(minuteSet < 0 || minuteSet > 23)
 						{
 							std::cout << "Error: you did not enter a valid minute range (0-59)\n";
 						}
 						else
 						{
-							sendCommand( "063 " + itos( minuteSet ) );
+							sendCommand("063 " + itos(minuteSet));
 						}
 					}
 					else
@@ -370,36 +416,36 @@ int main( int argc, char* argv[] )
 					}
 					break;
 				case 11: //second
-					if( stopwatchMode )
+					if(stopwatchMode)
 					{
 						std::cout << "Error: you cannot change the seconds while in stopwatch mode\n";
 					}
-					else if( commands.size() < 3 )
+					else if(commands.size() < 3)
 					{
 						std::cout << "Error: second requires a second command (add, sub, or set) and a valid integer argument (must be from 0-59 if using set)\n";
 					}
-					else if( !isStringInteger( commands[2] ) ) 
+					else if(!isStringInteger(commands[2])) 
 					{
 						std::cout << "Error: you did not enter an integer for the argument\n";
 					}
-					else if( stringToLowercase( commands[1] ) == "add" )
+					else if(stringToLowercase(commands[1]) == "add")
 					{
-						sendCommand( "071 " + itos(stoi( commands[2] )) );
+						sendCommand("071 " + itos(stoi(commands[2])));
 					}
-					else if( stringToLowercase( commands[1] ) == "sub" )
+					else if(stringToLowercase(commands[1]) == "sub")
 					{
-						sendCommand( "072 " + itos(stoi( commands[2] )) );
+						sendCommand("072 " + itos(stoi(commands[2])));
 					}
-					else if( stringToLowercase( commands[1] ) == "set" )
+					else if(stringToLowercase(commands[1]) == "set")
 					{
-						int secondSet = stoi( commands[2] );
-						if( secondSet < 0 || secondSet > 59 )
+						int secondSet = stoi(commands[2]);
+						if(secondSet < 0 || secondSet > 59)
 						{
 							std::cout << "Error: you did not enter a valid second range (0-59)\n";
 						}
 						else
 						{
-							sendCommand( "073 " + itos( secondSet ) );
+							sendCommand("073 " + itos(secondSet));
 						}
 					}
 					else
@@ -408,40 +454,40 @@ int main( int argc, char* argv[] )
 					}
 					break;
 				case 12: //month
-					if( stopwatchMode )
+					if(stopwatchMode)
 					{
 						std::cout << "Error: you cannot change the month while in stopwatch mode\n";
 					}
-					else if( timerMode )
+					else if(timerMode)
 					{
 						std::cout << "Error: you cannot change the month while in timer mode\n";
 					}
-					else if( commands.size() < 3 )
+					else if(commands.size() < 3)
 					{
 						std::cout << "Error: month requires a month command (add, sub, or set) and a valid integer argument (must be from 1-12 if using set)\n";
 					}
-					else if( !isStringInteger( commands[2] ) ) 
+					else if(!isStringInteger(commands[2])) 
 					{
 						std::cout << "Error: you did not enter an integer for the argument\n";
 					}
-					else if( stringToLowercase( commands[1] ) == "add" )
+					else if(stringToLowercase(commands[1]) == "add")
 					{
-						sendCommand( "081 " + itos(stoi( commands[2] )) );
+						sendCommand("081 " + itos(stoi(commands[2])));
 					}
-					else if( stringToLowercase( commands[1] ) == "sub" )
+					else if(stringToLowercase(commands[1]) == "sub")
 					{
-						sendCommand( "082 " + itos(stoi( commands[2] )) );
+						sendCommand("082 " + itos(stoi(commands[2])));
 					}
-					else if( stringToLowercase( commands[1] ) == "set" )
+					else if(stringToLowercase(commands[1]) == "set")
 					{
-						int monthSet = stoi( commands[2] );
-						if( monthSet < 1 || monthSet > 12 )
+						int monthSet = stoi(commands[2]);
+						if(monthSet < 1 || monthSet > 12)
 						{
 							std::cout << "Error: you did not enter a valid month range (1-12)\n";
 						}
 						else
 						{
-							sendCommand( "083 " + itos( monthSet ) );
+							sendCommand("083 " + itos(monthSet));
 						}
 					}
 					else
@@ -450,31 +496,31 @@ int main( int argc, char* argv[] )
 					}
 					break;
 				case 13: //day
-					if( stopwatchMode )
+					if(stopwatchMode)
 					{
 						std::cout << "Error: you cannot change the day while in stopwatch mode\n";
 					}
-					else if( timerMode )
+					else if(timerMode)
 					{
 						std::cout << "Error: you cannot change the day while in timer mode\n";
 					}
-					else if( commands.size() < 3 )
+					else if(commands.size() < 3)
 					{
 						std::cout << "Error: day requires a day command (add or sub) and a valid integer argument\n";
 					}
-					else if( !isStringInteger( commands[2] ) ) 
+					else if(!isStringInteger(commands[2])) 
 					{
 						std::cout << "Error: you did not enter an integer for the argument\n";
 					}
-					else if( stringToLowercase( commands[1] ) == "add" )
+					else if(stringToLowercase(commands[1]) == "add")
 					{
-						sendCommand( "091 " + itos(stoi( commands[2] )) );
+						sendCommand("091 " + itos(stoi(commands[2])));
 					}
-					else if( stringToLowercase( commands[1] ) == "sub" )
+					else if(stringToLowercase(commands[1]) == "sub")
 					{
-						sendCommand( "092 " + itos(stoi( commands[2] )) );
+						sendCommand("092 " + itos(stoi(commands[2])));
 					}
-					else if( stringToLowercase( commands[1] ) == "set" )
+					else if(stringToLowercase(commands[1]) == "set")
 					{
 						std::cout << "Error: the set command is not supported for day\n";
 					}

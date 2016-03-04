@@ -1,17 +1,33 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <locale>
+#include <vector>
 #include <string>
 #include <random>
 #include <ctime>
 #include <chrono>
 #include <cassert>
-#include <fstream>
 #include <functional>
 #include "timer.h"
 #include <limits>
-//For int to string conversion
-#include <sstream>
-//Project 2 includes
 #include <thread>
+
+/*******************
+FUNCTION PROTOTYPES
+*******************/
+
+std::vector<std::string> divide(std::string command);
+
+void sendCommand(std::string command);
+
+/*
+*	Converts a std::string to an integer
+*	This is needed because std::stoi (as used in the original implementation) is not supported in every compiler
+*	@param str the std::string to be converted
+*	@returns num the integer extracted from str
+*/
+int stoi(std::string str);
 
 /*
 *	Converts an integer to a std::string
@@ -19,7 +35,13 @@
 *	@param num the integer to be converted
 *	@returns a std::string representation of the given integer
 */
-std::string intToStr(int num);
+std::string itos(int var);
+
+/*
+*
+*/
+void execCommand(int command, int arg, timer* clk);
+
 
 /*
 * This does some set up and then loops on a specified interval in an asynchronous thread
@@ -30,19 +52,206 @@ std::string intToStr(int num);
 void run(timer* clk, int timer_ms);
 
 /*
+*
+*/
+void uiListener(timer* clk);
+
+/*
 *	@pre a clock has been passed in
 *	@post  none
 *	@return a the time is formatted to a string
 */
 std::string gettime(timer* clk);
 
+/*******************
+FUNCTION DEFINITIONS
+*******************/
 
-std::string intToStr(int num){
-	std::ostringstream stringConverter;
+int stoi(std::string str)
+{
+	std::istringstream stoi(str); 
+	int num;
 
-	stringConverter << num;
+	if(!(stoi >> num))
+	{
+		//uh oh
+		num = -1;
+	}
+	return num;
+}
 
-	return (stringConverter.str());
+std::string itos(int var)
+{
+	std::ostringstream itos;
+
+	itos << var;
+
+	return itos.str();
+}
+
+std::vector<int> divide(std::string command) 
+{
+	char delim = ' ';
+	std::string next;
+	std::vector<std::string> raw;
+
+	for (std::string::const_iterator iter = command.begin(); iter != command.end(); iter++) 
+	{
+		if(*iter == delim) 
+		{
+			if(!next.empty()) 
+			{
+				raw.push_back(next);
+				next.clear();
+			}
+		} 
+		else 
+		{
+			// Accumulate the next character into the sequence
+			next += *iter;
+		}
+	}
+	if(!next.empty())
+	{
+		raw.push_back(next);
+	}
+
+	std::vector<int> commands;
+	if(raw.size() == 0)
+	{
+		return commands;
+	}
+
+	commands.push_back(stoi(raw[0]));
+	if(raw.size() > 1)
+	{
+		commands.push_back(stoi(raw[1]));
+	}
+
+	return commands;
+}
+
+void sendCommand(std::string command)
+{
+	bool success = false;
+	while(!success)
+	{
+		try
+		{
+			std::ofstream outfile("ui.txt");
+			outfile << command;
+			outfile.close();
+			success = true;
+		}
+		catch(...) 
+		{
+			success =  false;
+		}
+	}
+}
+
+void execCommand(int command, int arg, timer* clk)
+{
+	switch(command)
+	{
+		case 0: //exit
+			std::cout << "exit\n";
+			break;
+		case 1: //stop
+			std::cout << "stop\n";
+			break;
+		case 2: //start
+			std::cout << "start\n";
+			break;
+		case 3: //timeformat:24
+			std::cout << "timeformat: 24\n";
+			break;
+		case 4: //timeformat:12
+			std::cout << "timeformat: 12\n";
+			break;
+		case 5: //display:on
+			std::cout << "display: on\n";
+			break;
+		case 6: //display:off
+			std::cout << "display: off\n";
+			break;
+		case 7: //zoom
+			std::cout << "zoom\n";
+			break;
+		case 51: //hour add
+			std::cout << "hour add " << arg << "\n";
+			break;
+		case 52: //hour sub
+			std::cout << "hour sub " << arg << "\n";
+			break;
+		case 53: //hour set
+			std::cout << "hour set " << arg << "\n";
+			break;
+		case 61: //minute add
+			std::cout << "minute add " << arg << "\n";
+			break;
+		case 62: //minute sub
+			std::cout << "minute sub " << arg << "\n";
+			break;
+		case 63: //minute set
+			std::cout << "minute set " << arg << "\n";
+			break;
+		case 71: //second add
+			std::cout << "second add " << arg << "\n";
+			break;
+		case 72: //second sub
+			std::cout << "second sub " << arg << "\n";
+			break;
+		case 73: //second set
+			std::cout << "second set " << arg << "\n";
+			break;
+		case 81: //month add
+			std::cout << "month add " << arg << "\n";
+			break;
+		case 82: //month sub
+			std::cout << "month sub " << arg << "\n";
+			break;
+		case 83: //month set
+			std::cout << "month set " << arg << "\n";
+			break;
+		case 91: //day add
+			std::cout << "day add " << arg << "\n";
+			break;
+		case 92: //day sub
+			std::cout << "day sub " << arg << "\n";
+			break;
+		case 149: //stopwatch enter
+			std::cout << "stopwatch\n";
+			break;
+		case 101: //stopwatch stop
+			std::cout << "stopwatch stop\n";
+			break;
+		case 102: //stopwatch start
+			std::cout << "stopwatch start\n";
+			break;
+		case 199: //stopwatch reset
+			std::cout << "stopwatch reset\n";
+			break;
+		case 100: //stopwatch exit
+			std::cout << "stopwatch exit\n";
+			break;
+		case 249: //timer enter
+			std::cout << "timer enter\n";
+			break;
+		case 201: //timer stop
+			std::cout << "timer stop\n";
+			break;
+		case 202: //timer start
+			std::cout << "timer start\n";
+			break;
+		case 200: //timer exit
+			std::cout << "timer exit\n";
+			break;
+		default:
+			//uh oh
+			std::cout << "Error: Unrecognized command code\n";
+			break;
+	}
 }
 
 void run(timer* clk, int timer_ms)
@@ -50,7 +259,7 @@ void run(timer* clk, int timer_ms)
 	bool loopControl = true;
 	// user needs to have defined set the time before this point
 
-	//Used for keepign track of timing using chrono
+	//Used for keeping track of timing using chrono
 	long int timeTracker;
 	while(loopControl)
 	{
@@ -72,11 +281,52 @@ void run(timer* clk, int timer_ms)
 	}
 }
 
+void uiListener(timer* clk)
+{
+	bool loopControl = true;
+	
+	while(loopControl)
+	{
+		//create ifstream for the input file and take in size
+		std::ifstream ui("ui.conf");
+
+		std::string codeStr;
+
+		std::getline(ui, codeStr);
+
+		std::vector<int> commands = divide(codeStr);
+		
+		if(commands.size() != 0)
+		{
+			int command = commands[0];
+			int arg = 0;
+			if(commands.size() > 1)
+			{
+				arg = commands[1];
+			}
+
+			execCommand(command, arg, clk);
+		}
+
+		sendCommand("");
+
+		ui.close();
+
+		//sleep for 50 milliseconds
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+	}
+}
+
 int main()
 {
-	timer* clk=new timer();
+	timer* clk = new timer();
 
-	std::thread timerCaller (run, clk, 1000);  // spawn new thread
+	//create new thread for incrementing the number of seconds
+	std::thread timerCaller(run, clk, 1000);
+
+	//create a new thread for checking for ui interaction (via the ui.conf file)
+	std::thread uiListener(uiListener, clk); 
 
 	//Wait for the run thread to end (clock to end) then join so that resources can be deleted and program can terminate
 	timerCaller.join();
@@ -92,24 +342,24 @@ std::string gettime(timer * clk)
 
 
 	int temp=clk->getHours();
-	if (temp>=10) {
-		t=intToStr(temp);
+	if(temp>=10) {
+		t=itos(temp);
 	}
 	else {
-		t="0"+intToStr(temp);
+		t="0"+itos(temp);
 	}
 	temp=clk->getMinutes();
-	if (temp>=10) {
-		t=t+":"+intToStr(temp);
+	if(temp>=10) {
+		t=t+":"+itos(temp);
 	}
 	else {
-		t=t+":0"+intToStr(temp);
+		t=t+":0"+itos(temp);
 	}
 	temp=clk->getSeconds();
-	if (temp>=10) {
-		t=t+":"+intToStr(temp);
+	if(temp>=10) {
+		t=t+":"+itos(temp);
 	}else {
-		t=t+":0"+intToStr(temp);
+		t=t+":0"+itos(temp);
 	}
 	if(!(clk->get24hourmode())){
 		t=t+clk->getam_pm();
