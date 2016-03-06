@@ -39,7 +39,19 @@ void run(timer* clk, int timer_ms);
 */
 std::string gettime(timer* clk);
 
-bool zoom = false;
+bool zoom = true;
+
+std::string asciiDigits[10][5] = {{"X X X ", "X   X ", "X   X ", "X   X ", "X X X "}, //0
+																	{"X X   ", "  X   ", "  X   ", "  X   ", "X X X "}, //1
+																	{"X X X ", "    X ", "X X X ", "X     ", "X X X "}, //2
+																	{"X X X ", "    X ", "X X X ", "    X ", "X X X "}, //3
+																	{"X   X ", "X   X ", "X X X ", "    X ", "    X "}, //4
+																	{"X X X ", "X     ", "X X X ", "    X ", "X X X "}, //5
+																	{"X X X ", "X     ", "X X X ", "X   X ", "X X X "}, //6
+																	{"X X X ", "    X ", "    X ", "    X ", "    X "}, //7
+																	{"X X X ", "X   X ", "X X X ", "X   X ", "X X X "}, //8
+																	{"X X X ", "X   X ", "X X X ", "    X ", "X X X "}  //9
+																	};
 
 int stringToInt( std::string str )
 {
@@ -199,10 +211,6 @@ void execCommand(int command, int arg)
 			break;
 		case 101: //stopwatch stop
 			std::cout << "stopwatch stop\n";
-			break;
-		case 102: //stopwatch start
-			std::cout << "stopwatch start\n";
-			break;
 		case 199: //stopwatch reset
 			std::cout << "stopwatch reset\n";
 			break;
@@ -308,32 +316,58 @@ int main()
 
 std::string gettime(timer * clk)
 {
-	//TODO: update this
-	std::string t;
+	std::string t = "";
+	if(!zoom)
+	{
+		int temp=clk->getHours();
+		if (temp>=10) {
+			t=intToString(temp);
+		}
+		else {
+			t="0"+intToString(temp);
+		}
+		temp=clk->getMinutes();
+		if (temp>=10) {
+			t=t+":"+intToString(temp);
+		}
+		else {
+			t=t+":0"+intToString(temp);
+		}
+		temp=clk->getSeconds();
+		if (temp>=10) {
+			t=t+":"+intToString(temp);
+		}else {
+			t=t+":0"+intToString(temp);
+		}
+		if(!(clk->get24hourmode())){
+			t=t+clk->getam_pm();
+		}
+	}
+	else
+	{
+		int hours = clk->getHours();
+		int minutes = clk->getMinutes();
+		int seconds = clk->getSeconds();
+		int digits[6];
+		digits[0] = ((hours - hours % 10) / 10);
+		digits[1] = (hours % 10);
+		digits[2] = ((minutes - minutes % 10) / 10);
+		digits[3] =	(minutes % 10);
+		digits[4] = (seconds - seconds % 10) / 10;
+		digits[5] =	(seconds % 10);
 
-
-	int temp=clk->getHours();
-	if (temp>=10) {
-		t=intToString(temp);
-	}
-	else {
-		t="0"+intToString(temp);
-	}
-	temp=clk->getMinutes();
-	if (temp>=10) {
-		t=t+":"+intToString(temp);
-	}
-	else {
-		t=t+":0"+intToString(temp);
-	}
-	temp=clk->getSeconds();
-	if (temp>=10) {
-		t=t+":"+intToString(temp);
-	}else {
-		t=t+":0"+intToString(temp);
-	}
-	if(!(clk->get24hourmode())){
-		t=t+clk->getam_pm();
+		for(int row = 0; row < 5; row ++)
+		{
+			for(int digit = 0; digit <6; digit++)
+			{
+				if(digit != 0 && digit % 2 == 0)
+				{
+					//add a colon
+				}
+				t += "  " + asciiDigits[digits[digit]][row];
+			}
+			t += "\n";
+		}
 	}
  return t;
 }
