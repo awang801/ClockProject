@@ -103,3 +103,21 @@ int timer::timing()
 {
 	return addTime(1);
 }
+
+int timer::timerSetting(int origTimerTime)
+{
+    int timerTime = 0;
+    timerTime = origTimerTime;
+    timerTime--;
+    
+    return timerTime;
+}
+
+int timer::stopWatchSetting(int origStopwatchTime)
+{
+    int stopWatchTime = 0;
+    stopWatchTime = origStopwatchTime;
+    stopWatchTime++;
+    
+    return stopWatchTime;    
+}

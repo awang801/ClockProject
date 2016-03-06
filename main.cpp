@@ -40,6 +40,11 @@ void run(timer* clk, int timer_ms);
 std::string gettime(timer* clk);
 
 bool zoom = false;
+bool loopControl = true;
+// user needs to have defined set the time before this point
+bool timerMode;
+bool stopWatchMode;
+
 
 int stringToInt( std::string str )
 {
@@ -230,11 +235,12 @@ void execCommand(int command, int arg)
 
 void run(timer* clk, int timer_ms)
 {
-	bool loopControl = true;
-	// user needs to have defined set the time before this point
 
 	//Used for keepign track of timing using chrono
 	long int timeTracker;
+        long int curTime; //variable for current time on stopwatch or timer
+        long int setTime; //Need to make this set as input from user
+        bool pause = false; //pause needs to be implemented from GUI
 	while(loopControl)
 	{
 
@@ -243,7 +249,22 @@ void run(timer* clk, int timer_ms)
 
 		//This prints the time
 		std::cout << gettime(clk) << "\n";
-
+                if (timerMode)
+                {
+                    while(!pause)
+                    {
+                        curTime = setTime;
+                        curTime = clk->timerSetting(curTime);
+                    }
+                }
+                if(stopWatchMode)
+                {
+                    while(!pause)
+                    {
+                        curTime = setTime;
+                        curTime = clk->stopWatchSetting(curTime);
+                    }             
+                }
 		//This increments the second counter
 		clk->timing();
 
