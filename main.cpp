@@ -39,6 +39,8 @@ void run(timer* clk, int timer_ms);
 */
 std::string gettime(timer* clk);
 
+bool zoom = false;
+
 int stringToInt( std::string str )
 {
 	std::istringstream stringToInt(str);
@@ -282,8 +284,6 @@ void uiListener(timer* clk)
 		sendCommand(" ");
 
 		ui.close();
-
-		std::string str;
 
 		//sleep for the remainder of timer_ms (less the time it took to execute digitalRun)
 		std::this_thread::sleep_for(std::chrono::milliseconds(50));
