@@ -7,12 +7,12 @@
 #include <chrono>
 #include <thread>
 
-int stoi( std::string str )
+int stringToInt( std::string str )
 {
-	std::istringstream stoi(str); 
+	std::istringstream stringToInt(str);
 	int hourSet;
 
-	if ( !(stoi >> hourSet) )
+	if ( !(stringToInt >> hourSet) )
 	{
 		//uh oh
 		hourSet = -1;
@@ -20,32 +20,32 @@ int stoi( std::string str )
 	return hourSet;
 }
 
-std::string itos(int var)
+std::string intToString(int var)
 {
-	std::ostringstream itos;
+	std::ostringstream intToString;
 
-	itos << var;
+	intToString << var;
 
-	return itos.str();
+	return intToString.str();
 }
 
-std::vector<int> divide(std::string command) 
+std::vector<int> divide(std::string command)
 {
 	char delim = ' ';
 	std::string next;
 	std::vector<std::string> raw;
 
-	for ( std::string::const_iterator iter = command.begin(); iter != command.end(); iter++ ) 
+	for ( std::string::const_iterator iter = command.begin(); iter != command.end(); iter++ )
 	{
-		if ( *iter == delim ) 
+		if ( *iter == delim )
 		{
-			if ( !next.empty() ) 
+			if ( !next.empty() )
 			{
 				raw.push_back(next);
 				next.clear();
 			}
-		} 
-		else 
+		}
+		else
 		{
 			// Accumulate the next character into the sequence
 			next += *iter;
@@ -62,10 +62,10 @@ std::vector<int> divide(std::string command)
 		return commands;
 	}
 
-	commands.push_back(stoi(raw[0]));
+	commands.push_back(stringToInt(raw[0]));
 	if(raw.size() > 1)
 	{
-		commands.push_back(stoi(raw[1]));
+		commands.push_back(stringToInt(raw[1]));
 	}
 
 	return commands;
@@ -83,7 +83,7 @@ void sendCommand( std::string command )
 			outfile.close();
 			success = true;
 		}
-		catch(...) 
+		catch(...)
 		{
 			success =  false;
 		}
@@ -198,7 +198,7 @@ int main( int argc, char* argv[] )
 {
 
 	bool loopControl = true;
-	
+
 	while( loopControl )
 	{
 		//create ifstream for the input file and take in size
@@ -209,7 +209,7 @@ int main( int argc, char* argv[] )
 		std::getline(ui, codeStr);
 
 		std::vector<int> commands = divide( codeStr );
-		
+
 		if( commands.size() != 0 )
 		{
 			int command = commands[0];
