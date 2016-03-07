@@ -122,29 +122,34 @@ class timer
                 /** @pre None
                 *		@post fixes the stop watch running based on command passed in.
                 * 	@return none
+								*/
 
 
                 void timerRun(timerCommands command);
                 /** @pre None
                 *		@post fixes timer running based on command passed in.
                 * 	@return none
+								*/
 
                 void addTimerTime(int change);
                 /** @pre None
                 *		@post time added to the timer/stopwatch
                 * 	@return none
+								*/
 
                 clkMode getTimerMode();
                 /** @pre None
                 *		@post none
                 * 	@return the clock mdoe that it current is running in.
-
+								*/
 
                 bool isTimerPaused();
                 /** @pre None
                 *		@post none
                 * 	@return boolean on if the timer is paused or not
+								*/
 
+								void setTimerTime(int setTime);
 
 };
 #endif
