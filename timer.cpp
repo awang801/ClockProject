@@ -61,12 +61,12 @@ int timer::getHours()
         case timerMode:
             rawHours = ((timerTime - 60 * getMinutes() - getSeconds()) / 3600);
 
-            return (rawHours == 0) ? 12 : rawHours % 12;
+            return rawHours;
             break;
         case stopwatch:
             rawHours = ((timerTime - 60 * getMinutes() - getSeconds()) / 3600);
 
-            return (rawHours == 0) ? 12 : rawHours % 12;
+            return rawHours;
             break;
         default:
             return 0;
@@ -97,7 +97,7 @@ int timer::getMinutes()
 int timer::getSeconds()
 {
         switch(mode)
-        {\
+        {
             case regularClock:
                 return (m_time_seconds % 60);
                 break;
@@ -107,7 +107,7 @@ int timer::getSeconds()
             case stopwatch:
                 return(timerTime % 60);
                 break;
-            default: 
+            default:
                 return 0;
                 break;
        }
@@ -126,8 +126,6 @@ bool timer::get24hourmode()
 int timer::addTime(int seconds_change)
 {
 
-        if (mode == regularClock)
-        {
         m_time_seconds += seconds_change;
         if(m_time_seconds>=86400)
         {
@@ -142,13 +140,6 @@ int timer::addTime(int seconds_change)
                 return dayChange * (-1);
         }
         return 0;
-        }
-        else
-        {
-            timerTime += seconds_change;
-            safeRound(timerTime);
-            return 0;
-        }
 }
 
 int timer::safeRound(int myTime)
@@ -177,14 +168,16 @@ void timer::stopWatchRun(timerCommands command)
     {
         case keepGoing:
             timerTime ++;
+            break;
         case enter:
             mode = stopwatch;
+            timerPause = false;
             break;
         case start:
-            timerPause = true;
+            timerPause = false;
             break;
         case stop:
-            timerPause = false;
+            timerPause = true;
             break;
         case reset:
             timerTime = 0;
@@ -202,7 +195,12 @@ clkMode timer::getTimerMode()
     return mode;
 }
 
-void timer::setTimer(int setTime)
+void timer::addTimerTime(int change)
+{
+  timerTime = safeRound(timerTime += change);
+}
+
+void timer::setTimerTime(int setTime)
 {
     timerTime = setTime;
 }
@@ -219,7 +217,7 @@ void timer::timerRun(timerCommands command)
         case keepGoing:
             if (timerTime == 0)
             {
-                timerPause = false;
+                timerPause = true;
             }
 
             else
@@ -230,10 +228,10 @@ void timer::timerRun(timerCommands command)
             mode = timerMode;
             break;
         case start:
-            timerPause = true;
+            timerPause = false;
             break;
         case stop:
-            timerPause = false;
+            timerPause = true;
             break;
         case reset:
             timerTime = 0;
@@ -243,6 +241,4 @@ void timer::timerRun(timerCommands command)
             timerTime = 0;
             break;
     }
-
 }
-

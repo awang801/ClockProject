@@ -18,48 +18,55 @@ Calendar::~Calendar()
 //sets m_dayofweek one of 7 days in m_weekday array
 void Calendar::setWeekday()
 {
-	int m_value = 0;
-
-	for(int i=0; i<(m_monthValue-1); i++)
-	{
-		m_value += m_monthsLength[i];
-	}
-	m_value += m_day;
-	m_value = (m_value%7);
-
-	if((m_value) == 0)
-	{
-		m_dayofweek = m_weekday[6];
-	}
-
-	m_dayofweek = m_weekday[m_value-1];
+	int dayInYear = 0;
+  for(int i = 0; i < m_monthValue; i++)
+  {
+    dayInYear += m_monthsLength[i];
+  }
+  dayInYear += m_day;
+  m_dayofweek = m_weekday[dayInYear % 7];
 }
 
-void Calendar::changeDay(int days)
+int Calendar::safeRound(int val, int max)
 {
-	m_dayofweek = m_weekday[m_value];
+	return ((val % max) + max) % max;
+}
+
+void Calendar::changeDay(int day)
+{
+  m_day += day;
+  m_monthValue = safeRound(m_monthValue, 12);
+  if(m_day > m_monthsLength[m_monthValue])
+  {
+    addMonth(1);
+    m_day = safeRound(m_day, m_monthsLength[m_monthValue]);
+  }
+  else if(m_day < m_monthsLength[m_monthValue])
+  {
+    subtractMonth(1);
+    m_day = safeRound(m_day, m_monthsLength[m_monthValue]);
+  }
+  setWeekday();
 }
 
 void Calendar::setMonth(int month)
 {
-	month += 1;
-	month = (month % 12);
+	month = safeRound(month, 12);
 	m_monthValue = month;
 	m_month = month_names[month];
+  setWeekday();
 }
 
 void Calendar::addMonth(int change)
 {
-	m_monthValue += change;
-	m_monthValue %= 12;
+  m_monthValue = safeRound(m_monthValue + change, 12);
 	m_month = month_names[m_monthValue];
 	setWeekday();
 }
 
 void Calendar::subtractMonth(int change)
 {
-	m_monthValue -= change;
-	m_monthValue %= 12;
+	m_monthValue = safeRound(m_monthValue - change, 12);
 	m_month = month_names[m_monthValue];
 	setWeekday();
 }

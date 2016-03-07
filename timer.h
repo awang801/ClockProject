@@ -9,20 +9,20 @@ enum timerCommands{ enter, stop, start, reset, stopTimer, keepGoing };
 class timer
 {
 	private:
-                //Member variables
-                //Represents the time in seconds out of the day (always between 0-86399)
-                int m_time_seconds;
+			//Member variables
+			//Represents the time in seconds out of the day (always between 0-86399)
+			int m_time_seconds;
 
-                long int timerTime;
+			long int timerTime;
 
-                //If mode is 12 hour, m_24hour_flag = false. If mode is 24 hour, m_24hour_flag = true
-                bool m_24hour_flag;
-                clkMode mode;
-                bool timerPause;
+			//If mode is 12 hour, m_24hour_flag = false. If mode is 24 hour, m_24hour_flag = true
+			bool m_24hour_flag;
+			clkMode mode;
+			bool timerPause;
 
 	public:
 		/** @pre  None
-		*   @post timer created with start time of midnight and m_24hour_flag set to false
+		*		 @post timer created with start time of midnight and m_24hour_flag set to false
 		*/
 		timer();
 
@@ -31,8 +31,8 @@ class timer
 		*/
 		timer(int seconds);
 
-		/** @pre  None
-		*   @post timer created with start time at given number of hours, minutes, and seconds and m_24hour_flag set to false
+		/** @pre None
+		*		 @post timer created with start time at given number of hours, minutes, and seconds and m_24hour_flag set to false
 		*/
 		timer(int hours, int minutes, int seconds);
 
@@ -43,17 +43,17 @@ class timer
 		//--------------------------------------
 
 		/** @pre None
-		*   @return number of hours
+		*		 @return number of hours
 		*/
 		int getHours();
 
 		/** @pre None
-		*   @return number of minutes
+		*		 @return number of minutes
 		*/
 		int getMinutes();
 
-		/** @pre    None
-		*   @return number of seconds
+		/** @pre		None
+		*		 @return number of seconds
 		*/
 		int getSeconds();
 
@@ -72,13 +72,13 @@ class timer
 		bool m_24hour_flag;
 
 		/**
-		*   @returns m_24hour_flag
+		*		 @returns m_24hour_flag
 		*/
 		bool get24hourmode();
 
 
 		/** @pre  None
-		*   @post Returns string of either am or pm
+		*		 @post Returns string of either am or pm
 		*/
 		std::string getam_pm();
 
@@ -86,8 +86,8 @@ class timer
 		//Set methods
 		//--------------------------------------
 
-		/** @pre  seconds_change is an integer
-		*   @post Adjusts time by given number of seconds, accounting for rollover.  Updates the day of the week if necessary
+		/** @pre seconds_change is an integer
+		*		 @post Adjusts time by given number of seconds, accounting for rollover.		Updates the day of the week if necessary
 		*/
 		int addTime(int seconds_change);
 
@@ -101,27 +101,30 @@ class timer
 		*/
 		void setTimeInSeconds(int newTIme);
 
-		/** @pre  None
-		*   @post Mode is set to either 24 hour mode or 24 hour mode
+		/** @pre None
+		*		 @post Mode is set to either 24 hour mode or 24 hour mode
 		*/
 		void set24hourmode(bool mode);
 
-		/** @pre  None
-		*   @post Variables for time are updated
+		/** @pre None
+		*		@post Variables for time are updated
 		* 	@return dayChange the change in day from adding the second (should be either 0 or 1)
 		*/
 
-                int timing();
+			int timing();
 
-                void stopWatchRun(timerCommands command);
+			void stopWatchRun(timerCommands command);
 
-                void timerRun(timerCommands command);
+			void timerRun(timerCommands command);
 
-                void setTimer(int setTime);
-                clkMode getTimerMode();
+			void addTimerTime(int change);
 
-                bool isTimerPaused();
-                
-                
+			void setTimerTime(int setTime);
+
+			clkMode getTimerMode();
+
+			bool isTimerPaused();
+
+
 };
 #endif
