@@ -12,7 +12,53 @@ bool timerMode = false;
 
 std::string validCommands[17] = {"exit", "help", "stop", "start", "timeFormat", "display", "zoom", "stopwatch", "timer", "hour", "minute", "second", "month", "day", "add", "sub", "set"};
 
-std::string helpString = "***************\nCLOCKSHELL HELP\n***************\nexit - Exit the program.\nhelp - Display this help message.\nstop - Stop the clock, timer, or stopwatch.\nstart - Start the clock, timer, or stopwatch.\ntimeFormat - Change the time format.  Valid syntax is \"timeFormat 24\" or \"timeFormat 12\" to specify 24 or 12 hour time.\ndisplay - Turn the display on or off.  Valid syntax is \"display off\" or \"display on\" to specify turning the display on or off.\nzoom - Toggle the display zoom.\nstopwatch - Used to give commands to the stopwatch.\n			To enter stopwatch mode, enter \"stopwatch\"\n            To start the stopwatch, enter \"stopwatch start\", and to stop enter \"stopwatch stop\"\n            To reset the stopwatch, enter \"stopwatch reset\"\n            To exit stopwatch mode, enter \"stopwatch exit\"\ntimer - Enter timer mode\n            To enter timer mode enter \"timer\".\n            To set the the time of the timer, enter timer mode and then just use \"<hour|minute|second>\" \"<add|sub|set> <valid_integer_argument>\" as normal\n            To start the timer enter \"timer start\", and to stop the timer enter \"timer stop\"\n            To exit timer mode enter \"timer exit\"\nhour - Specify a change in the number of hours using add, sub, or set commands.\nminute - Specify a change in the number of minutes using add, sub, or set commands.\nsecond - Specify a change in the number of seconds using add, sub, or set commands.\nmonth - Specify a change in the month using add, sub, or set commands.\nday - Specify a change in the day using add or sub commands.  Set is not an available command for day.\nadd - Secondary command used to add to the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour add 3)\nsub - Secondary command used to subtract from the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour sub 5)\nset - Secondary command used to set the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: month set 3).  Note: the integer argument must be within the valid range.";
+std::string helpString = "***************\nCLOCKSHELL HELP\n***************\nexit - Exit the program.\nhelp - Display this help message.\nstop - Stop the clock, timer, or stopwatch.\nstart - Start the clock, timer, or stopwatch.\ntimeFormat - Change the time format.  Valid syntax is \"timeFormat 24\" or \"timeFormat 12\" to specify 24 or 12 hour time.\ndisplay - Turn the display on or off.  Valid syntax is \"display off\" or \"display on\" to specify turning the display on or off.\nzoom - Toggle the display zoom.\nstopwatch - Used to give commands to the stopwatch.\n			To enter stopwatch mode, enter \"stopwatch\"\n            To start the stopwatch, enter \"stopwatch start\", and to stop enter \"stopwatch stop\"\n            To reset the stopwatch, enter \"stopwatch reset\"\n            To exit stopwatch mode, enter \"stopwatch exit\"\ntimer - Enter timer mode\n            To enter timer mode enter \"timer\".\n            To set the the time of the timer, enter timer mode and then just use \"<hour|minute|second>\" \"<add|sub|set> <valid_integer_argument>\" as normal\n            To start the timer enter \"timer start\", and to stop the timer enter \"timer stop\"\n            To exit timer mode enter \"timer exit\"\n            To reset the timer enter \"timer reset\"\nhour - Specify a change in the number of hours using add, sub, or set commands.\nminute - Specify a change in the number of minutes using add, sub, or set commands.\nsecond - Specify a change in the number of seconds using add, sub, or set commands.\nmonth - Specify a change in the month using add, sub, or set commands.\nday - Specify a change in the day using add or sub commands.  Set is not an available command for day.\nadd - Secondary command used to add to the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour add 3)\nsub - Secondary command used to subtract from the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour sub 5)\nset - Secondary command used to set the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: month set 3).  Note: the integer argument must be within the valid range.\n ";
+
+int stringToInt( std::string str )
+{
+	std::istringstream stringToInt(str);
+	int hourSet;
+
+	if ( !(stringToInt >> hourSet) )
+	{
+		//uh oh
+		hourSet = -1;
+	}
+	return hourSet;
+}
+
+std::string intToString(int var)
+{
+	std::ostringstream intToString;
+
+	intToString << var;
+
+	return intToString.str();
+}
+
+std::string stringToLowercase(std::string str)
+{
+	std::locale myLocale;
+	std::string lowerString = "";
+
+	for (int i = 0; i < str.length(); i++)
+	{
+		lowerString += std::tolower( str[i], myLocale );
+	}
+
+	return lowerString;
+}
+
+bool isStringInteger(std::string str)
+{
+	std::istringstream ss(str);
+	int test;
+	if ( !( ss >> test ) )
+	{
+		return false;
+	}
+	return true;
+}
 
 //this page was referenced in creating this function http://stackoverflow.com/questions/890164/how-can-i-split-a-string-by-a-delimiter-into-an-array
 std::vector<std::string> divide(std::string command)
@@ -74,52 +120,6 @@ void sendCommand( std::string command )
 	        success =  false;
 		}
 	}
-}
-
-int stringToInt( std::string str )
-{
-	std::istringstream stringToInt(str);
-	int hourSet;
-
-	if ( !(stringToInt >> hourSet) )
-	{
-		//uh oh
-		hourSet = -1;
-	}
-	return hourSet;
-}
-
-std::string intToString(int var)
-{
-	std::ostringstream intToString;
-
-	intToString << var;
-
-	return intToString.str();
-}
-
-std::string stringToLowercase(std::string str)
-{
-	std::locale myLocale;
-	std::string lowerString = "";
-
-	for (int i = 0; i < str.length(); i++)
-	{
-		lowerString += std::tolower( str[i], myLocale );
-	}
-
-	return lowerString;
-}
-
-bool isStringInteger(std::string str)
-{
-	std::istringstream ss(str);
-	int test;
-	if ( !( ss >> test ) )
-	{
-		return false;
-	}
-	return true;
 }
 
 int main( int argc, char* argv[] )
@@ -235,7 +235,7 @@ int main( int argc, char* argv[] )
 					}
 					else if( stringToLowercase( commands[1] ) == "reset")
 					{
-						sendCommand("149");
+						sendCommand("199");
 					}
 					else if( stringToLowercase( commands[1] ) == "exit")
 					{
@@ -281,6 +281,10 @@ int main( int argc, char* argv[] )
 					else if( stringToLowercase( commands[1] ) == "start")
 					{
 						sendCommand("202");
+					}
+					else if( stringToLowercase( commands[1] ) == "reset")
+					{
+						sendCommand("299");
 					}
 					else if( stringToLowercase( commands[1] ) == "exit")
 					{

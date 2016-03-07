@@ -18,6 +18,7 @@ timer - Enter timer mode
             To set the the time of the timer, enter timer mode and then just use "<hour|minute|second>" "<add|sub|set> <valid_integer_argument>" as normal
             To start the timer enter "timer start", and to stop the timer enter "timer stop"
             To exit timer mode enter "timer exit"
+            To reset the timer enter "timer reset"
 hour - Specify a change in the number of hours using add, sub, or set commands.
 minute - Specify a change in the number of minutes using add, sub, or set commands.
 second - Specify a change in the number of seconds using add, sub, or set commands.
