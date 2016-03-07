@@ -43,8 +43,7 @@ std::string gettime(timer* clk);
 bool zoom = false;
 bool loopControl = true;
 // user needs to have defined set the time before this point
-bool timerMode;
-bool stopWatchMode;
+clkMode mode = regularClock;
 
 
 std::string asciiDigits[10][5] = {{"X X X ", "X   X ", "X   X ", "X   X ", "X X X "}, //0
@@ -142,7 +141,7 @@ void sendCommand( std::string command )
 	}
 }
 
-void execCommand(int command, int arg)
+void execCommand(int command, int arg, timer* clk)
 {
 	switch(command)
 	{
@@ -212,33 +211,47 @@ void execCommand(int command, int arg)
 		case 92: //day sub
 			std::cout << "day sub " << arg << "\n";
 			break;
-		case 149: //stopwatch enter
-			std::cout << "stopwatch\n";
-			break;
-		case 101: //stopwatch stop
-			std::cout << "stopwatch stop\n";
-		case 199: //stopwatch reset
-			std::cout << "stopwatch reset\n";
-			break;
-		case 100: //stopwatch exit
-			std::cout << "stopwatch exit\n";
-			break;
-		case 249: //timer enter
-			std::cout << "timer enter\n";
-			break;
-		case 201: //timer stop
-			std::cout << "timer stop\n";
-			break;
-		case 202: //timer start
-			std::cout << "timer start\n";
-			break;
-		case 200: //timer exit
-			std::cout << "timer exit\n";
-			break;
-		default:
-			//uh oh
-			std::cout << "Error: Unrecognized command code\n";
-			break;
+                case 149: //stopwatch enter
+                        std::cout << "stopwatch\n";
+                        clk->stopWatchRun(enter);
+                        break;
+                case 101: //stopwatch stop
+                        std::cout << "stopwatch stop\n";
+                        clk->stopWatchRun(stop);
+                        break;
+                case 102: //stopwatch start
+                        std::cout << "stopwatch start\n";
+                        clk->stopWatchRun(start);
+                        break;
+                case 199: //stopwatch reset
+                        std::cout << "stopwatch reset\n";
+                        clk->stopWatchRun(reset);
+                        break;
+                case 100: //stopwatch exit
+                        std::cout << "stopwatch exit\n";
+                        clk->stopWatchRun(stopTimer);
+                        break;
+                case 249: //timer enter
+                        std::cout << "timer enter\n";
+                        clk->timerRun(enter);
+                        //clk->setTimer(setTime); //need to put in user input here
+                        break;
+                case 201: //timer stop
+                        std::cout << "timer stop\n";
+                        clk->timerRun(stop);
+                        break;
+                case 202: //timer start
+                        std::cout << "timer start\n";
+                        clk->timerRun(start);
+                        break;
+                case 200: //timer exit
+                        clk->timerRun(stopTimer);
+                        std::cout << "timer exit\n";
+                        break;
+                case 299: //timer reset
+                        clk->timerRun(reset);
+                        std::cout<< "timer reset\n";
+                        break;
 	}
 }
 
@@ -247,9 +260,6 @@ void run(timer* clk, int timer_ms)
 
 	//Used for keepign track of timing using chrono
 	long int timeTracker;
-        long int curTime; //variable for current time on stopwatch or timer
-        long int setTime; //Need to make this set as input from user
-        bool pause = false; //pause needs to be implemented from GUI
 	while(loopControl)
 	{
 
@@ -258,22 +268,16 @@ void run(timer* clk, int timer_ms)
 
 		//This prints the time
 		std::cout << gettime(clk) << "\n";
-                if (timerMode)
+
+                if(clk->getTimerMode() == timerMode && clk->isTimerPaused())
                 {
-                    while(!pause)
-                    {
-                        curTime = setTime;
-                        curTime = clk->timerSetting(curTime);
-                    }
+                    clk->timerRun(keepGoing);
                 }
-                if(stopWatchMode)
+                if (clk->getTimerMode() == stopwatch && clk->isTimerPaused())
                 {
-                    while(!pause)
-                    {
-                        curTime = setTime;
-                        curTime = clk->stopWatchSetting(curTime);
-                    }             
+                    clk->stopWatchRun(keepGoing);
                 }
+
 		//This increments the second counter
 		clk->timing();
 
@@ -308,7 +312,7 @@ void uiListener(timer* clk)
 				arg = commands[1];
 			}
 
-			execCommand(command, arg);
+                        execCommand(command, arg, clk);
 		}
 
 		sendCommand(" ");

@@ -2,15 +2,23 @@
 #define TIMER_H
 #include <string>
 #include <cmath>
+
+enum clkMode { timerMode, stopwatch, regularClock };
+enum timerCommands{ enter, stop, start, reset, stopTimer, keepGoing };
+
 class timer
 {
 	private:
-		//Member variables
-		//Represents the time in seconds out of the day (always between 0-86399)
-		int m_time_seconds;
+                //Member variables
+                //Represents the time in seconds out of the day (always between 0-86399)
+                int m_time_seconds;
 
-		//If mode is 12 hour, m_24hour_flag = false. If mode is 24 hour, m_24hour_flag = true
-		bool m_24hour_flag;
+                long int timerTime;
+
+                //If mode is 12 hour, m_24hour_flag = false. If mode is 24 hour, m_24hour_flag = true
+                bool m_24hour_flag;
+                clkMode mode;
+                bool timerPause;
 
 	public:
 		/** @pre  None
@@ -102,11 +110,17 @@ class timer
 		*   @post Variables for time are updated
 		* 	@return dayChange the change in day from adding the second (should be either 0 or 1)
 		*/
-		int timing();
-                
-                int timerSetting(int origTimerTime);
-                
-                int stopWatchSetting(int origStopWatchTime);
+
+                int timing();
+
+                void stopWatchRun(timerCommands command);
+
+                void timerRun(timerCommands command);
+
+                void setTimer(int setTime);
+                clkMode getTimerMode();
+
+                bool isTimerPaused();
                 
                 
 };
