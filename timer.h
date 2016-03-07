@@ -103,5 +103,11 @@ class timer
 		* 	@return dayChange the change in day from adding the second (should be either 0 or 1)
 		*/
 		int timing();
+                
+                int timerSetting(int origTimerTime);
+                
+                int stopWatchSetting(int origStopWatchTime);
+                
+                
 };
 #endif
