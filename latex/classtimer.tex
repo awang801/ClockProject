@@ -1,0 +1,243 @@
+\hypertarget{classtimer}{}\section{timer Class Reference}
+\label{classtimer}\index{timer@{timer}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtimer_ae536faf93e02933cd025a6fbcbb48d0a}{timer} ()
+\item 
+\hyperlink{classtimer_a47a4fa62de8cc93ec9359483cedea776}{timer} (int seconds)
+\item 
+\hyperlink{classtimer_adeac171bfdf7e5f6a51210227ec8902c}{timer} (int hours, int minutes, int seconds)
+\item 
+int \hyperlink{classtimer_affe742ff47c230ee4dfaf6ff0d0b85fa}{get\+Hours} ()
+\item 
+int \hyperlink{classtimer_a94fd8198feb7a53fc06afd0fee97afb7}{get\+Minutes} ()
+\item 
+int \hyperlink{classtimer_a4615972d080443b34bac1ce74341b645}{get\+Seconds} ()
+\item 
+int \hyperlink{classtimer_a5925eaa5fed0ad7a94f600d5c45bb464}{get\+Time\+In\+Seconds} ()
+\item 
+bool \hyperlink{classtimer_a5e81358565d2d761e4e056cf4b95cefe}{get24hourmode} ()
+\item 
+std\+::string \hyperlink{classtimer_adcb8d6ddbd990b9ee87c3239d33f1e90}{getam\+\_\+pm} ()
+\item 
+int \hyperlink{classtimer_a075f24defb936b0c2ebf22842487a78c}{add\+Time} (int seconds\+\_\+change)
+\item 
+int \hyperlink{classtimer_ae10c8e7bdf715550148e90aacfd763d7}{safe\+Round} (int my\+Time)
+\item 
+void \hyperlink{classtimer_aa0b7033ee73bb2330431d6066cba13ad}{set\+Time\+In\+Seconds} (int new\+T\+Ime)
+\item 
+void \hyperlink{classtimer_a007ff8ebe4ac52fd96e5e35515ac8a4c}{set24hourmode} (bool mode)
+\item 
+int \hyperlink{classtimer_aace88860850f3c5ed6fc377826c095d8}{timing} ()
+\item 
+\hypertarget{classtimer_a8ab8b41b83342d11ca7f751fcf309277}{}void {\bfseries stop\+Watch\+Run} (timer\+Commands command)\label{classtimer_a8ab8b41b83342d11ca7f751fcf309277}
+
+\item 
+\hypertarget{classtimer_aeb97f678ade4a93a06e6ea94f6e7f260}{}void {\bfseries timer\+Run} (timer\+Commands command)\label{classtimer_aeb97f678ade4a93a06e6ea94f6e7f260}
+
+\item 
+\hypertarget{classtimer_a67585da342300f30390662a12ea5f408}{}void {\bfseries add\+Timer\+Time} (int change)\label{classtimer_a67585da342300f30390662a12ea5f408}
+
+\item 
+\hypertarget{classtimer_aedd579fb7d92ee08576c07d8e09ef44c}{}void {\bfseries set\+Timer\+Time} (int set\+Time)\label{classtimer_aedd579fb7d92ee08576c07d8e09ef44c}
+
+\item 
+\hypertarget{classtimer_a7c278b3f39ccbffa7086bc82fa591a64}{}clk\+Mode {\bfseries get\+Timer\+Mode} ()\label{classtimer_a7c278b3f39ccbffa7086bc82fa591a64}
+
+\item 
+\hypertarget{classtimer_a039e08f0ade4641649c1ff77d042e5f8}{}bool {\bfseries is\+Timer\+Paused} ()\label{classtimer_a039e08f0ade4641649c1ff77d042e5f8}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classtimer_ae536faf93e02933cd025a6fbcbb48d0a}{}\index{timer@{timer}!timer@{timer}}
+\index{timer@{timer}!timer@{timer}}
+\subsubsection[{timer}]{\setlength{\rightskip}{0pt plus 5cm}timer\+::timer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classtimer_ae536faf93e02933cd025a6fbcbb48d0a}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+timer created with start time of midnight and m\+\_\+24hour\+\_\+flag set to false 
+\end{DoxyPostcond}
+\hypertarget{classtimer_a47a4fa62de8cc93ec9359483cedea776}{}\index{timer@{timer}!timer@{timer}}
+\index{timer@{timer}!timer@{timer}}
+\subsubsection[{timer}]{\setlength{\rightskip}{0pt plus 5cm}timer\+::timer (
+\begin{DoxyParamCaption}
+\item[{int}]{seconds}
+\end{DoxyParamCaption}
+)}\label{classtimer_a47a4fa62de8cc93ec9359483cedea776}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+timer created with start time at given number of seconds and m\+\_\+24hour\+\_\+flag set to false 
+\end{DoxyPostcond}
+\hypertarget{classtimer_adeac171bfdf7e5f6a51210227ec8902c}{}\index{timer@{timer}!timer@{timer}}
+\index{timer@{timer}!timer@{timer}}
+\subsubsection[{timer}]{\setlength{\rightskip}{0pt plus 5cm}timer\+::timer (
+\begin{DoxyParamCaption}
+\item[{int}]{hours, }
+\item[{int}]{minutes, }
+\item[{int}]{seconds}
+\end{DoxyParamCaption}
+)}\label{classtimer_adeac171bfdf7e5f6a51210227ec8902c}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+timer created with start time at given number of hours, minutes, and seconds and m\+\_\+24hour\+\_\+flag set to false 
+\end{DoxyPostcond}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classtimer_a075f24defb936b0c2ebf22842487a78c}{}\index{timer@{timer}!add\+Time@{add\+Time}}
+\index{add\+Time@{add\+Time}!timer@{timer}}
+\subsubsection[{add\+Time}]{\setlength{\rightskip}{0pt plus 5cm}int timer\+::add\+Time (
+\begin{DoxyParamCaption}
+\item[{int}]{seconds\+\_\+change}
+\end{DoxyParamCaption}
+)}\label{classtimer_a075f24defb936b0c2ebf22842487a78c}
+\begin{DoxyPrecond}{Precondition}
+seconds\+\_\+change is an integer 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Adjusts time by given number of seconds, accounting for rollover. Updates the day of the week if necessary 
+\end{DoxyPostcond}
+\hypertarget{classtimer_a5e81358565d2d761e4e056cf4b95cefe}{}\index{timer@{timer}!get24hourmode@{get24hourmode}}
+\index{get24hourmode@{get24hourmode}!timer@{timer}}
+\subsubsection[{get24hourmode}]{\setlength{\rightskip}{0pt plus 5cm}bool timer\+::get24hourmode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classtimer_a5e81358565d2d761e4e056cf4b95cefe}
+\begin{DoxyReturn}{Returns}
+m\+\_\+time\+\_\+seconds the time in se private\+: Member variables Represents the time in seconds out of the day (always between 0-\/86399) int m\+\_\+time\+\_\+seconds;
+\end{DoxyReturn}
+If mode is 12 hour, m\+\_\+24hour\+\_\+flag = false. If mode is 24 hour, m\+\_\+24hour\+\_\+flag = true bool m\+\_\+24hour\+\_\+flag;
+
+/$\ast$$\ast$ \begin{DoxyReturn}{Returns}
+m\+\_\+24hour\+\_\+flag 
+\end{DoxyReturn}
+\hypertarget{classtimer_adcb8d6ddbd990b9ee87c3239d33f1e90}{}\index{timer@{timer}!getam\+\_\+pm@{getam\+\_\+pm}}
+\index{getam\+\_\+pm@{getam\+\_\+pm}!timer@{timer}}
+\subsubsection[{getam\+\_\+pm}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string timer\+::getam\+\_\+pm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classtimer_adcb8d6ddbd990b9ee87c3239d33f1e90}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Returns string of either am or pm 
+\end{DoxyPostcond}
+\hypertarget{classtimer_affe742ff47c230ee4dfaf6ff0d0b85fa}{}\index{timer@{timer}!get\+Hours@{get\+Hours}}
+\index{get\+Hours@{get\+Hours}!timer@{timer}}
+\subsubsection[{get\+Hours}]{\setlength{\rightskip}{0pt plus 5cm}int timer\+::get\+Hours (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classtimer_affe742ff47c230ee4dfaf6ff0d0b85fa}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyReturn}{Returns}
+number of hours 
+\end{DoxyReturn}
+\hypertarget{classtimer_a94fd8198feb7a53fc06afd0fee97afb7}{}\index{timer@{timer}!get\+Minutes@{get\+Minutes}}
+\index{get\+Minutes@{get\+Minutes}!timer@{timer}}
+\subsubsection[{get\+Minutes}]{\setlength{\rightskip}{0pt plus 5cm}int timer\+::get\+Minutes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classtimer_a94fd8198feb7a53fc06afd0fee97afb7}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyReturn}{Returns}
+number of minutes 
+\end{DoxyReturn}
+\hypertarget{classtimer_a4615972d080443b34bac1ce74341b645}{}\index{timer@{timer}!get\+Seconds@{get\+Seconds}}
+\index{get\+Seconds@{get\+Seconds}!timer@{timer}}
+\subsubsection[{get\+Seconds}]{\setlength{\rightskip}{0pt plus 5cm}int timer\+::get\+Seconds (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classtimer_a4615972d080443b34bac1ce74341b645}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyReturn}{Returns}
+number of seconds 
+\end{DoxyReturn}
+\hypertarget{classtimer_a5925eaa5fed0ad7a94f600d5c45bb464}{}\index{timer@{timer}!get\+Time\+In\+Seconds@{get\+Time\+In\+Seconds}}
+\index{get\+Time\+In\+Seconds@{get\+Time\+In\+Seconds}!timer@{timer}}
+\subsubsection[{get\+Time\+In\+Seconds}]{\setlength{\rightskip}{0pt plus 5cm}int timer\+::get\+Time\+In\+Seconds (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classtimer_a5925eaa5fed0ad7a94f600d5c45bb464}
+\begin{DoxyReturn}{Returns}
+m\+\_\+time\+\_\+seconds the time in seconds 
+\end{DoxyReturn}
+\hypertarget{classtimer_ae10c8e7bdf715550148e90aacfd763d7}{}\index{timer@{timer}!safe\+Round@{safe\+Round}}
+\index{safe\+Round@{safe\+Round}!timer@{timer}}
+\subsubsection[{safe\+Round}]{\setlength{\rightskip}{0pt plus 5cm}int timer\+::safe\+Round (
+\begin{DoxyParamCaption}
+\item[{int}]{my\+Time}
+\end{DoxyParamCaption}
+)}\label{classtimer_ae10c8e7bdf715550148e90aacfd763d7}
+\begin{DoxyReturn}{Returns}
+my\+Time safely rounded off (so that it is definitely in the valid time range) 
+\end{DoxyReturn}
+\hypertarget{classtimer_a007ff8ebe4ac52fd96e5e35515ac8a4c}{}\index{timer@{timer}!set24hourmode@{set24hourmode}}
+\index{set24hourmode@{set24hourmode}!timer@{timer}}
+\subsubsection[{set24hourmode}]{\setlength{\rightskip}{0pt plus 5cm}void timer\+::set24hourmode (
+\begin{DoxyParamCaption}
+\item[{bool}]{mode}
+\end{DoxyParamCaption}
+)}\label{classtimer_a007ff8ebe4ac52fd96e5e35515ac8a4c}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Mode is set to either 24 hour mode or 24 hour mode 
+\end{DoxyPostcond}
+\hypertarget{classtimer_aa0b7033ee73bb2330431d6066cba13ad}{}\index{timer@{timer}!set\+Time\+In\+Seconds@{set\+Time\+In\+Seconds}}
+\index{set\+Time\+In\+Seconds@{set\+Time\+In\+Seconds}!timer@{timer}}
+\subsubsection[{set\+Time\+In\+Seconds}]{\setlength{\rightskip}{0pt plus 5cm}void timer\+::set\+Time\+In\+Seconds (
+\begin{DoxyParamCaption}
+\item[{int}]{new\+T\+Ime}
+\end{DoxyParamCaption}
+)}\label{classtimer_aa0b7033ee73bb2330431d6066cba13ad}
+\begin{DoxyPostcond}{Postcondition}
+m\+\_\+time\+\_\+seconds is set to new\+Time 
+\end{DoxyPostcond}
+\hypertarget{classtimer_aace88860850f3c5ed6fc377826c095d8}{}\index{timer@{timer}!timing@{timing}}
+\index{timing@{timing}!timer@{timer}}
+\subsubsection[{timing}]{\setlength{\rightskip}{0pt plus 5cm}int timer\+::timing (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classtimer_aace88860850f3c5ed6fc377826c095d8}
+\begin{DoxyPrecond}{Precondition}
+None 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Variables for time are updated 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Returns}
+day\+Change the change in day from adding the second (should be either 0 or 1) 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+timer.\+h\item 
+timer.\+cpp\end{DoxyCompactItemize}
