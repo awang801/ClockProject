@@ -1,11 +1,7 @@
 # EECS448_project1
-Run program.
-Create clock.
-
-to return to the menu:
-1. open time.txt
-2. write 'n' where there is a 'y'
-3. save the menu should pop up wihtin a few seconds
-4. rewrite 'y' where 'n' is now
-5. save
-6. make changes in the menu
+1.) create clock shell if object file not already in.(in the shell folder)
+2.) move the shell object file out into the main folder. 
+3.) compile the program.
+4.) open two terminals.
+5.) run the project on one terminal, and the clock shell on the other.
+6.)Enter commands in the clock shell, results will be shown on the terminal that you ran the project in

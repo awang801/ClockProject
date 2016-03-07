@@ -111,19 +111,39 @@ class timer
 		* 	@return dayChange the change in day from adding the second (should be either 0 or 1)
 		*/
 
-			int timing();
+                int timing();
 
-			void stopWatchRun(timerCommands command);
+                /** @pre None
+                *		@post add one second to the clock
+                * 	@return 0
+                */
 
-			void timerRun(timerCommands command);
+                void stopWatchRun(timerCommands command);
+                /** @pre None
+                *		@post fixes the stop watch running based on command passed in.
+                * 	@return none
 
-			void addTimerTime(int change);
 
-			void setTimerTime(int setTime);
+                void timerRun(timerCommands command);
+                /** @pre None
+                *		@post fixes timer running based on command passed in.
+                * 	@return none
 
-			clkMode getTimerMode();
+                void addTimerTime(int change);
+                /** @pre None
+                *		@post time added to the timer/stopwatch
+                * 	@return none
 
-			bool isTimerPaused();
+                clkMode getTimerMode();
+                /** @pre None
+                *		@post none
+                * 	@return the clock mdoe that it current is running in.
+
+
+                bool isTimerPaused();
+                /** @pre None
+                *		@post none
+                * 	@return boolean on if the timer is paused or not
 
 
 };
