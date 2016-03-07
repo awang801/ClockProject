@@ -145,20 +145,24 @@ void execCommand(int command, int arg, timer* clk)
 {
 	switch(command)
 	{
-		case 0: //exit
+                case 0: //exit
 			std::cout << "exit\n";
 			break;
 		case 1: //stop
 			std::cout << "stop\n";
+                        loopControl = false;
 			break;
 		case 2: //start
 			std::cout << "start\n";
+                        loopControl = true;
 			break;
 		case 3: //timeformat:24
 			std::cout << "timeformat: 24\n";
+                        clk -> set24hourmode(true);
 			break;
 		case 4: //timeformat:12
 			std::cout << "timeformat: 12\n";
+                        clk -> set24hourmode(false);
 			break;
 		case 5: //display:on
 			std::cout << "display: on\n";
@@ -171,45 +175,60 @@ void execCommand(int command, int arg, timer* clk)
 			break;
 		case 51: //hour add
 			std::cout << "hour add " << arg << "\n";
+                        clk -> addTime(arg * 3600);
 			break;
 		case 52: //hour sub
 			std::cout << "hour sub " << arg << "\n";
+                        clk -> addTime(arg * 3600 * (-1));
 			break;
 		case 53: //hour set
 			std::cout << "hour set " << arg << "\n";
+                        clk -> setTimeInSeconds((arg * 3600) + tempM + tempS);
 			break;
 		case 61: //minute add
 			std::cout << "minute add " << arg << "\n";
+                        clk -> addTime(arg * 60);
 			break;
 		case 62: //minute sub
 			std::cout << "minute sub " << arg << "\n";
+                        clk -> addTime(arg * 60 * (-1));
 			break;
 		case 63: //minute set
 			std::cout << "minute set " << arg << "\n";
+                        clk -> setTimeInSeconds(tempH + (arg * 60) + tempS);
+                        //create new timer with new hours, previous mins and seconds
 			break;
 		case 71: //second add
 			std::cout << "second add " << arg << "\n";
+                        clk -> addTime(arg);
 			break;
 		case 72: //second sub
 			std::cout << "second sub " << arg << "\n";
+                        clk -> addTime(arg * (-1));
 			break;
 		case 73: //second set
 			std::cout << "second set " << arg << "\n";
+                        clk -> setTimeInSeconds(tempH + tempM + arg);
 			break;
 		case 81: //month add
 			std::cout << "month add " << arg << "\n";
+                        coolCalendar -> addMonth(arg);
 			break;
 		case 82: //month sub
 			std::cout << "month sub " << arg << "\n";
+                        coolCalendar -> subtractMonth(arg);
 			break;
 		case 83: //month set
 			std::cout << "month set " << arg << "\n";
+                        coolCalendar -> setMonth(arg);
 			break;
 		case 91: //day add
 			std::cout << "day add " << arg << "\n";
+                        clk -> addTime(arg * 86400);
 			break;
 		case 92: //day sub
 			std::cout << "day sub " << arg << "\n";
+                        clk -> addTime(arg * 86400 * (-1));
 			break;
                 case 149: //stopwatch enter
                         std::cout << "stopwatch\n";
