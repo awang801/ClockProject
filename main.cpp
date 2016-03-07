@@ -10,6 +10,7 @@
 #include <cassert>
 #include <functional>
 #include "timer.h"
+#include "Calendar.h"
 #include <limits>
 //For int to string conversion
 #include <sstream>
@@ -141,8 +142,12 @@ void sendCommand( std::string command )
 	}
 }
 
-void execCommand(int command, int arg, timer* clk)
+void execCommand(int command, int arg, timer* clk, Calendar* coolCalendar)
 {
+    int tempH = (clk -> getHours()) * 3600;
+    int tempM = (clk -> getMinutes()) * 60;
+    int tempS = clk -> getSeconds();
+    
 	switch(command)
 	{
                 case 0: //exit
@@ -308,7 +313,7 @@ void run(timer* clk, int timer_ms)
 	}
 }
 
-void uiListener(timer* clk)
+void uiListener(timer* clk, Calendar* coolCalendar)
 {
 	bool loopControl = true;
 	while(loopControl)
@@ -331,7 +336,7 @@ void uiListener(timer* clk)
 				arg = commands[1];
 			}
 
-                        execCommand(command, arg, clk);
+                        execCommand(command, arg, clk, coolCalendar);
 		}
 
 		sendCommand(" ");
@@ -346,9 +351,10 @@ void uiListener(timer* clk)
 int main()
 {
 	timer* clk=new timer();
-
+        Calendar* coolCalendar = new Calendar();
+        
 	std::thread timerCallerThread (run, clk, 1000);  // spawn new thread
-	std::thread uiListenerThread (uiListener, clk);  // spawn new thread
+	std::thread uiListenerThread (uiListener, clk, coolCalendar);  // spawn new thread
 
 	//Wait for the run thread to end (clock to end) then join so that resources can be deleted and program can terminate
 	uiListenerThread.join();

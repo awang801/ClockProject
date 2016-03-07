@@ -68,6 +68,9 @@ int timer::getHours()
 
             return (rawHours == 0) ? 12 : rawHours % 12;
             break;
+        default:
+            return 0;
+            break;
 
         }
 }
@@ -85,6 +88,9 @@ int timer::getMinutes()
         case stopwatch:
             return ((timerTime %3600 - getSeconds())/60);
             break;
+        default:
+            return 0;
+            break;
         }
 }
 
@@ -100,6 +106,9 @@ int timer::getSeconds()
                 break;
             case stopwatch:
                 return(timerTime % 60);
+                break;
+            default: 
+                return 0;
                 break;
        }
 }
