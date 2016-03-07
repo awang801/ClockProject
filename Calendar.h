@@ -1,5 +1,6 @@
 /**
 *  @author 	Audrey Evans <audreyevans@ku.edu>
+*               hari ramanan <hramanan@ku.edu>
 *  @version 2.0 &nbsp;
 *  @since 2016-03-1
 */
@@ -25,30 +26,59 @@ public:
   /*
     @params int month, int day
     @post day of week calculated
-    @return day of week
+    @return nothing
   */
-  std::string setDay(int month,int day);
+  void setWeekday();
 
   /*
     @param number of days incremented
     @post day of week incremented
     @return none
   */
-  void ChangeDay(int days);
+  void changeDay(int days);
+  
   /*
     @return day of week
   */
-  std::string getdayofweek();
+  std::string getDayOfWeek();
+  
+  /*
+   * @post sets calendar day number regradless of month
+   */
+  void setDay(int day);
 
+  /*
+   * @pre needs integer. anything greater than 12 is mod by 12, then used.
+   * @post sets month based on number 1-12
+   */
+  void setMonth(int month);
+  
+  /*
+   * @pre requires integer
+   * @post adds x months to current month value
+   */
+  void addMonth(int change);
+  
+  /*
+   * @post subtracts x months from current month value
+   */
+  void subtractMonth(int change);
+  
+  // returns m_month
+  std::string getMonth();
+  
+  //returns m_day
+  int getDate();
+  
   //Member variables
 
-  int m_value;
-  int m_month;
-  int m_day;
-  int m_months[];
-  std::string m_weekday[];
-  std::string m_dayofweek;
-
-
+  int m_value; //used in change weekdat function
+  int m_monthValue = 1; //0-11 keeps track of number of month
+  std::string m_month = "January"; //name of current month
+  int m_day = 1; //keeps track of number of day in current month
+  int m_monthsLength[]; //12 cell array with length of ea month in days
+  std::string m_weekday[]; //7 cell array with day of week names
+  std::string m_dayofweek = "Friday"; //keeps track of current day of the week
+  std::string month_names[]; //12 cell array with month names
 };
 #endif
