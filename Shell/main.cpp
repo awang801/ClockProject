@@ -7,6 +7,64 @@
 #include <stdexcept>
 #include <locale>
 
+/**********************
+FUNCTION PROTOTYPES
+**********************/
+
+/*
+*		Extracts an integer from a given string using a string stream.  Returns 0 if there is an error extracting the integer (isStringInteger is used to test for this error beforehand so this shouldn't ever happen)
+*		Note: if the input string contains an integer but also non-digit characters, this will just extract the integer and ignore the characters.  Ex: "2b" would return 2
+*		@return the integer extracted from the string
+*/
+int stringToInt( std::string str );
+
+/*
+*		Converts an integer into a string using a string stream.
+*		@return the string representation of the integer
+*/
+std::string intToString(int var);
+
+/*
+*		Makes a string have all lowercase characters by using the std::toLower function on each character
+*		@return the string converted to all lowercase
+*/
+std::string stringToLowercase(std::string str);
+
+/*
+*		Checks if the string is an integer by attempting to convert it to an integer using a string stream and returning the success of the operation
+*		@return true if the string contains an integer, false if it does not
+*/
+bool isStringInteger(std::string str);
+
+/*
+*		Divides the input string into a vector of strings, using the space character as a delimiter
+*		Note: this page was referenced in creating this function http://stackoverflow.com/questions/890164/how-can-i-split-a-string-by-a-delimiter-into-an-array
+*		@return a vector of strings extracted from the input string
+*/
+std::vector<std::string> divide(std::string command);
+
+/*
+*		@return the commandId for the input command string, or -1 is the command is not recognized
+*/
+int getCommandId(std::string command);
+
+/*
+*		Writes input command string to the ui.conf file in the same directory as this application
+*		Note: if the write operation fails this function will loop and try again until the write is a success
+*		@pre: command is a valid command code/argument pair (this is used by the other half of this clock)
+*		@post: the input command string is written to the ui.conf file
+*/
+void sendCommand( std::string command );
+
+/*
+*		Main function, takes input from the user, validates it, outputs it to a file (ui.conf) as a predefined integer code if it is valid, and loops until the user exits.
+*/
+int main( int argc, char* argv[] );
+
+/**********************
+MEMBER VARIABLES
+**********************/
+
 bool stopwatchMode = false;
 bool timerMode = false;
 
@@ -14,26 +72,30 @@ std::string validCommands[17] = {"exit", "help", "stop", "start", "timeFormat", 
 
 std::string helpString = "***************\nCLOCKSHELL HELP\n***************\nexit - Exit the program.\nhelp - Display this help message.\nstop - Stop the clock, timer, or stopwatch.\nstart - Start the clock, timer, or stopwatch.\ntimeFormat - Change the time format.  Valid syntax is \"timeFormat 24\" or \"timeFormat 12\" to specify 24 or 12 hour time.\ndisplay - Turn the display on or off.  Valid syntax is \"display off\" or \"display on\" to specify turning the display on or off.\nzoom - Toggle the display zoom.\nstopwatch - Used to give commands to the stopwatch.\n			To enter stopwatch mode, enter \"stopwatch\"\n            To start the stopwatch, enter \"stopwatch start\", and to stop enter \"stopwatch stop\"\n            To reset the stopwatch, enter \"stopwatch reset\"\n            To exit stopwatch mode, enter \"stopwatch exit\"\ntimer - Enter timer mode\n            To enter timer mode enter \"timer\".\n            To set the the time of the timer, enter timer mode and then just use \"<hour|minute|second>\" \"<add|sub|set> <valid_integer_argument>\" as normal\n            To start the timer enter \"timer start\", and to stop the timer enter \"timer stop\"\n            To exit timer mode enter \"timer exit\"\n            To reset the timer enter \"timer reset\"\nhour - Specify a change in the number of hours using add, sub, or set commands.\nminute - Specify a change in the number of minutes using add, sub, or set commands.\nsecond - Specify a change in the number of seconds using add, sub, or set commands.\nmonth - Specify a change in the month using add, sub, or set commands.\nday - Specify a change in the day using add or sub commands.  Set is not an available command for day.\nadd - Secondary command used to add to the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour add 3)\nsub - Secondary command used to subtract from the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: hour sub 5)\nset - Secondary command used to set the number of hours, minutes, seconds, months, or days.  This command accepts an integer as an argument (ex: month set 3).  Note: the integer argument must be within the valid range.\n ";
 
+/**********************
+FUNCTION DEFINITIONS
+**********************/
+
 int stringToInt( std::string str )
 {
-	std::istringstream stringToInt(str);
-	int hourSet;
+	std::istringstream stoi(str);
+	int var;
 
-	if ( !(stringToInt >> hourSet) )
+	if ( !(stoi >> var) )
 	{
 		//uh oh
-		hourSet = -1;
+		var = 0;
 	}
-	return hourSet;
+	return var;
 }
 
 std::string intToString(int var)
 {
-	std::ostringstream intToString;
+	std::ostringstream itos;
 
-	intToString << var;
+	itos << var;
 
-	return intToString.str();
+	return itos.str();
 }
 
 std::string stringToLowercase(std::string str)
@@ -51,16 +113,17 @@ std::string stringToLowercase(std::string str)
 
 bool isStringInteger(std::string str)
 {
-	std::istringstream ss(str);
-	int test;
-	if ( !( ss >> test ) )
+	std::istringstream isi(str);
+
+	int var;
+
+	if ( !( isi >> var ) )
 	{
 		return false;
 	}
 	return true;
 }
 
-//this page was referenced in creating this function http://stackoverflow.com/questions/890164/how-can-i-split-a-string-by-a-delimiter-into-an-array
 std::vector<std::string> divide(std::string command)
 {
 	char delim = ' ';
@@ -90,7 +153,7 @@ std::vector<std::string> divide(std::string command)
     return result;
 }
 
-int getCommandCode(std::string command)
+int getCommandId(std::string command)
 {
 	for( int i = 0; i < 17; i++ )
 	{
@@ -116,7 +179,6 @@ void sendCommand( std::string command )
 		}
 		catch(...)
 		{
-	        //std::cout << std::current_exception().what(); //For debugging TODO: remove this when finished
 	        success =  false;
 		}
 	}
@@ -144,7 +206,9 @@ int main( int argc, char* argv[] )
 
 			std::string primary = commands[0];
 
-			switch( getCommandCode( primary ) )
+			int commandId = getCommandId(primary);
+
+			switch(commandId)
 			{
 				case 0: //exit
 					std::cout << "Exiting...\n";
