@@ -150,9 +150,9 @@ void sendCommand( std::string command )
 
 void execCommand(int command, int arg, timer* clk, Calendar* coolCalendar)
 {
-	int hours = (clk -> getHours()) * 3600;
-	int minutes = (clk -> getMinutes()) * 60;
-	int seconds = clk -> getSeconds();
+	int hours = (clk->getHours()) * 3600;
+	int minutes = (clk->getMinutes()) * 60;
+	int seconds = clk->getSeconds();
 
 	switch(command)
 	{
@@ -170,11 +170,11 @@ void execCommand(int command, int arg, timer* clk, Calendar* coolCalendar)
 			break;
 		case 3: //timeformat:24
 			std::cout << "timeformat: 24\n";
-			clk -> set24hourmode(true);
+			clk->set24hourmode(true);
 			break;
 		case 4: //timeformat:12
 			std::cout << "timeformat: 12\n";
-			clk -> set24hourmode(false);
+			clk->set24hourmode(false);
 			break;
 		case 5: //display:on
 			std::cout << "display: on\n";
@@ -190,123 +190,123 @@ void execCommand(int command, int arg, timer* clk, Calendar* coolCalendar)
 			break;
 		case 51: //hour add
 			std::cout << "hour add " << arg << "\n";
-			if(clk -> getTimerMode() == 2)
+			if(clk->getTimerMode() == 2)
 			{
-				clk -> addTime(arg * 3600);
+				clk->addTime(arg * 3600);
 			}
-			else if(clk -> getTimerMode() == timerMode)
+			else if(clk->getTimerMode() == timerMode)
 			{
-				clk -> addTimerTime(arg * 3600);
+				clk->addTimerTime(arg * 3600);
 			}
 			break;
 		case 52: //hour sub
 			std::cout << "hour sub " << arg << "\n";
-			if(clk -> getTimerMode() == 2)
+			if(clk->getTimerMode() == 2)
 			{
-				clk -> addTime(arg * 3600 * (-1));
+				clk->addTime(arg * 3600 * (-1));
 			}
-			else if(clk -> getTimerMode() == timerMode)
+			else if(clk->getTimerMode() == timerMode)
 			{
-				clk -> addTimerTime(arg * 3600 * (-1));
+				clk->addTimerTime(arg * 3600 * (-1));
 			}
 			break;
 		case 53: //hour set
 			std::cout << "hour set " << arg << "\n";
-			if(clk -> getTimerMode() == 2)
+			if(clk->getTimerMode() == 2)
 			{
-			clk -> setTimeInSeconds((arg * 3600) + minutes + seconds);
+			clk->setTimeInSeconds((arg * 3600) + minutes + seconds);
 			}
-			else if(clk -> getTimerMode() == timerMode)
+			else if(clk->getTimerMode() == timerMode)
 			{
-				clk -> setTimerTime((arg * 3600) + minutes + seconds);
+				clk->setTimerTime((arg * 3600) + minutes + seconds);
 			}
 			break;
 		case 61: //minute add
 			std::cout << "minute add " << arg << "\n";
-			if(clk -> getTimerMode() == 2)
+			if(clk->getTimerMode() == 2)
 			{
-				clk -> addTime(arg * 60);
+				clk->addTime(arg * 60);
 			}
-			else if(clk -> getTimerMode() == timerMode)
+			else if(clk->getTimerMode() == timerMode)
 			{
-				clk -> addTimerTime(arg * 60);
+				clk->addTimerTime(arg * 60);
 			}
 			break;
 		case 62: //minute sub
 			std::cout << "minute sub " << arg << "\n";
-			if(clk -> getTimerMode() == 2)
+			if(clk->getTimerMode() == 2)
 			{
-				clk -> addTime(arg * 60 * (-1));
+				clk->addTime(arg * 60 * (-1));
 			}
-			else if(clk -> getTimerMode() == timerMode)
+			else if(clk->getTimerMode() == timerMode)
 			{
-				clk -> addTimerTime(arg * 60 * (-1));
+				clk->addTimerTime(arg * 60 * (-1));
 			}
 			break;
 		case 63: //minute set
 			std::cout << "minute set " << arg << "\n";
-			if(clk -> getTimerMode() == 2)
+			if(clk->getTimerMode() == 2)
 			{
-				clk -> setTimeInSeconds(hours + (arg * 60) + seconds);
+				clk->setTimeInSeconds(hours + (arg * 60) + seconds);
 			}
-			else if(clk -> getTimerMode() == timerMode)
+			else if(clk->getTimerMode() == timerMode)
 			{
-				clk -> setTimerTime(hours + (arg * 60) + seconds);
+				clk->setTimerTime(hours + (arg * 60) + seconds);
 			}
 			break;
 		case 71: //second add
 			std::cout << "second add " << arg << "\n";
-			if(clk -> getTimerMode() == 2)
+			if(clk->getTimerMode() == 2)
 			{
-				clk -> addTime(arg);
+				clk->addTime(arg);
 			}
-			else if(clk -> getTimerMode() == timerMode)
+			else if(clk->getTimerMode() == timerMode)
 			{
-				clk -> addTimerTime(arg);
+				clk->addTimerTime(arg);
 			}
 			break;
 		case 72: //second sub
 			std::cout << "second sub " << arg << "\n";
-			if(clk -> getTimerMode() == 2)
+			if(clk->getTimerMode() == 2)
 			{
-				clk -> addTime(arg * (-1));
+				clk->addTime(arg * (-1));
 			}
-			else if(clk -> getTimerMode() == timerMode)
+			else if(clk->getTimerMode() == timerMode)
 			{
-				clk -> addTimerTime(arg * (-1));
+				clk->addTimerTime(arg * (-1));
 			}
 			break;
 		case 73: //second set
 			std::cout << "second set " << arg << "\n";
-			clk -> setTimeInSeconds(hours + minutes + arg);
-			if(clk -> getTimerMode() == 2)
+			clk->setTimeInSeconds(hours + minutes + arg);
+			if(clk->getTimerMode() == 2)
 			{
-				clk -> setTimeInSeconds(hours + minutes + arg);
+				clk->setTimeInSeconds(hours + minutes + arg);
 			}
-			else if(clk -> getTimerMode() == timerMode)
+			else if(clk->getTimerMode() == timerMode)
 			{
-				clk -> setTimerTime(hours + minutes + arg);
+				clk->setTimerTime(hours + minutes + arg);
 			}
 			break;
 		case 81: //month add
 			std::cout << "month add " << arg << "\n";
-			coolCalendar -> addMonth(arg);
+			coolCalendar->changeMonth(arg);
 			break;
 		case 82: //month sub
 			std::cout << "month sub " << arg << "\n";
-			coolCalendar -> subtractMonth(arg);
+			coolCalendar->changeMonth(arg * (-1));
 			break;
 		case 83: //month set
 			std::cout << "month set " << arg << "\n";
-			coolCalendar -> setMonth(arg);
+			coolCalendar->changeMonth(arg - coolCalendar->getMonth());
 			break;
 		case 91: //day add
 			std::cout << "day add " << arg << "\n";
-			coolCalendar -> changeDay(arg);
+			coolCalendar->changeDay(arg);
 			break;
 		case 92: //day sub
 			std::cout << "day sub " << arg << "\n";
-			coolCalendar -> changeDay(arg * (-1));
+			coolCalendar->changeDay(arg * (-1));
 			break;
 		case 149: //stopwatch enter
 			std::cout << "stopwatch\n";
@@ -368,7 +368,7 @@ void timerCaller(timer* clk, int timer_ms, Calendar* coolCalendar)
 		if(display)
 		{
 			//This prints the time
-			std::cout << gettime(clk) << " " << coolCalendar -> getDayOfWeek() <<"\n";
+			std::cout << gettime(clk) << " " << coolCalendar->getDayOfWeek() <<"\n";
 		}
 
 		if(!paused)

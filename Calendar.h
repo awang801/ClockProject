@@ -32,62 +32,28 @@ public:
   */
   int safeRound(int val, int max);
 
-  /*
-    @params int month, int day
-    @post day of week calculated
-    @return nothing
-  */
-  void setWeekday();
+
+  int getMonth();
 
   /*
-    @param number of days incremented
-    @post day of week incremented
-    @return none
-  */
-  void changeDay(int day);
-
-  /*
-    @return day of week
+  *   @return day of the week as a string
   */
   std::string getDayOfWeek();
 
   /*
-   * @post sets calendar day number regradless of month
-   */
-  void setDay(int day);
+  *   @post the day is changed by the given number
+  */
+  void changeDay(int change);
 
   /*
-   * @pre needs integer. anything greater than 12 is mod by 12, then used.
-   * @post sets month based on number 1-12
-   */
-  void setMonth(int month);
+  *   @post the day is changed by the given number of months
+  */
+  void changeMonth(int change);
 
-  /*
-   * @pre requires integer
-   * @post adds x months to current month value
-   */
-  void addMonth(int change);
-
-  /*
-   * @post subtracts x months from current month value
-   */
-  void subtractMonth(int change);
-
-  // returns m_month
-  std::string getMonth();
-
-  //returns m_day
-  int getDate();
-
-  //Member variables
-
-  int m_value; //used in change weekdat function
-  int m_monthValue = 0; //0-11 keeps track of number of month
-  std::string m_month = "January"; //name of current month
-  int m_day = 1; //keeps track of number of day in current month
-  int m_monthsLength[]; //12 cell array with length of ea month in days
-  std::string m_weekday[]; //7 cell array with day of week names
-  std::string m_dayofweek = "Friday"; //keeps track of current day of the week
-  std::string month_names[]; //12 cell array with month names
+  int m_monthsLength[12] = {31,29,31,30,31,30,31,31,30,31,30,31};
+  std::string m_weekday[7] = {"Fri","Sat","Sun","Mon","Tues","Wed","Thurs"};
+  std::string month_names[12] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+  int m_dayInYear;
 };
+
 #endif
