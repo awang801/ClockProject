@@ -39,7 +39,8 @@ void run(timer* clk, int timer_ms);
 */
 std::string gettime(timer* clk);
 
-bool zoom = true;
+//Is the display zoomed?
+bool zoom = false;
 
 std::string asciiDigits[10][5] = {{"X X X ", "X   X ", "X   X ", "X   X ", "X X X "}, //0
 																	{"X X   ", "  X   ", "  X   ", "  X   ", "X X X "}, //1
@@ -360,6 +361,18 @@ std::string gettime(timer * clk)
 		{
 			for(int digit = 0; digit <6; digit++)
 			{
+				if(digit == 2 || digit == 4)
+				{
+					//add a colon
+					if(row == 1 || row == 3)
+					{
+						t += " o ";
+					}
+					else
+					{
+						t+= "   ";
+					}
+				}
 				if(digit != 0 && digit % 2 == 0)
 				{
 					//add a colon
